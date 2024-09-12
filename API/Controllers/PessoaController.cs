@@ -29,7 +29,7 @@ namespace API.Controllers
         [HttpGet("Logar-Pessoa")]
         public Pessoa Login([FromQuery] LoginDTO p)
         {
-            return _service.Login(p.UserName);
+            return _service.Login(p.UserName, p.Senha);
         }
 
 

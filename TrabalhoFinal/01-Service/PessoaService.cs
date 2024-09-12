@@ -41,10 +41,13 @@ namespace TrabalhoFinal._01_Service
             repository.Editar(editPessoa);
         }
         
-        public Pessoa Login(string user)
+        public bool Login(string user, string passw)
         {
-            return repository.BuscarPorUserName(user);
+            Pessoa p = repository.BuscarPorUserName(user);
+            if (p==null) { return false; }
+            if(passw==null) { return false; }
+            return true;
         }
-
+      
     }
 }
