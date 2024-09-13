@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrabalhoFinal._02_Repository;
 using TrabalhoFinal._03_Entidade;
+using TrabalhoFinal._03_Entidade.DTOs;
 
 namespace TrabalhoFinal._01_Service
 {
@@ -40,14 +41,38 @@ namespace TrabalhoFinal._01_Service
         {
             repository.Editar(editPessoa);
         }
-        
-        public bool Login(string user, string passw)
+
+        public LoginPessoa Login(string user, string passw)
         {
-            Pessoa p = repository.BuscarPorUserName(user);
-            if (p==null) { return false; }
-            if(passw==null) { return false; }
-            return true;
+            LoginPessoa pessoaReturn = new LoginPessoa();
+            bool verificacao = false; //se logou ou não
+
+            Pessoa p = repository.BuscarPorUserName(user);//retorna a pessoa se tiver criada no banco
+
+            if (p == null)
+            {
+                p = new Pessoa();
+                verificacao = false;
+                pessoaReturn.Login = verificacao;
+            }//verifica o nome
+            if (passw == p.Senha)
+            {
+                    verificacao = true;
+            }//verifica a senha
+
+            if (!verificacao)
+            {
+                return pessoaReturn;
+            }//se a verificação não estiver correta, não retorna nada e caba o método.
+
+            pessoaReturn.Login = verificacao;
+            pessoaReturn.Nome = p.Nome;
+            pessoaReturn.UserName = p.UserName;
+            pessoaReturn.Senha = p.Senha;
+            pessoaReturn.Endereco = p.Endereco;
+
+            return pessoaReturn;
         }
-      
+
     }
 }

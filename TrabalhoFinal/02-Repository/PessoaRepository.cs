@@ -52,7 +52,17 @@ public class PessoaRepository
     public Pessoa BuscarPorUserName(string user)
     {
         using var connection = new SQLiteConnection(ConnectionString);
-        return connection.Get<Pessoa>(user);
+
+        List<Pessoa> todomundodobanco = ListarPessoa();
+
+        foreach(Pessoa x in todomundodobanco)
+        {
+            if (x.UserName == user)
+            {
+                return x;
+            }
+        }
+        return null;
     }
 
 }

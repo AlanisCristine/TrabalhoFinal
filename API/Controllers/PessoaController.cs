@@ -26,11 +26,11 @@ namespace API.Controllers
             _service.AdicionarPessoa(pessoa);
         }
 
-        //[HttpGet("Logar-Pessoa")]
-        //public Pessoa Login([FromQuery] LoginDTO p)
-        //{
-        //    return _service.Login(p.UserName, p.Senha);
-        //}
+        [HttpGet("Logar-Pessoa")]
+        public LoginPessoa Login([FromQuery] LoginDTO p)
+        {
+            return _service.Login(p.UserName, p.Senha);
+        }
 
 
         [HttpGet("Listar-Pessoa")]
