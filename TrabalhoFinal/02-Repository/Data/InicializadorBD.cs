@@ -20,7 +20,8 @@ public static class InicializadorBD
                   CREATE TABLE IF NOT EXISTS PRODUTOS(
                   Id INTEGER PRIMARY KEY AUTOINCREMENT,
                   Nome TEXT NOT NULL,
-                  Estoque INTEGER NOT NULL
+                  Preco DECIMAL NOT NULL,
+                  Estoque INT NOT NULL
                 );";
 
         commandoSQL += @"
