@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrabalhoFinal._03_Entidade
+namespace TrabalhoFinal._03_Entidade.DTOs
 {
-    public class Carrinho
+    public class CarrinhoDTO
     {
         public int Id { get; set; }
         public int IdPessoa { get; set; }
-        public  int IdProduto { get; set; }
+        public Pessoa Pessoa { get; set; }
+        public int IdProduto { get; set; }
+        public Produto Produto { get; set; }
     }
 }

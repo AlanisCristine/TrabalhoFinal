@@ -39,6 +39,7 @@ namespace TrabalhoFinal._02_Repository
         public List<Produto> ListarProduto()
         {
             using var connection = new SQLiteConnection(ConnectionString);
+
             return connection.GetAll<Produto>().ToList();
         }
 

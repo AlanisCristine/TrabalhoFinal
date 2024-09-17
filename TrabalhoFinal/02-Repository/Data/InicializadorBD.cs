@@ -33,6 +33,13 @@ public static class InicializadorBD
                   Endereco STRING NOT NULL
                 );";
 
+        commandoSQL += @"   
+                 CREATE TABLE IF NOT EXISTS CARRINHOS(
+                 Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 IdPessoa INTEGER NOT NULL,
+                 IdProduto INTEGER NOT NULL
+                 );";
+
 
         connection.Execute(commandoSQL);
     }

@@ -30,6 +30,7 @@ namespace TrabalhoFinal._01_Service
 
         public List<Pessoa> ListarPessoa()
         {
+
             return repository.ListarPessoa();
         }
         public Pessoa buscarporid(int id)
@@ -42,9 +43,9 @@ namespace TrabalhoFinal._01_Service
             repository.Editar(editPessoa);
         }
 
-        public LoginPessoa Login(string user, string passw)
+        public LoginPessoaDTO Login(string user, string passw)
         {
-            LoginPessoa pessoaReturn = new LoginPessoa();
+            LoginPessoaDTO pessoaReturn = new LoginPessoaDTO();
             bool verificacao = false; //se logou ou não
 
             Pessoa p = repository.BuscarPorUserName(user);//retorna a pessoa se tiver criada no banco

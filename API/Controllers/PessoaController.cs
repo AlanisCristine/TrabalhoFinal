@@ -27,7 +27,7 @@ namespace API.Controllers
         }
 
         [HttpGet("Logar-Pessoa")]
-        public LoginPessoa Login([FromQuery] LoginDTO p)
+        public LoginPessoaDTO Login([FromQuery] LoginDTO p)
         {
             return _service.Login(p.UserName, p.Senha);
         }
