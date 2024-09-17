@@ -26,5 +26,11 @@ namespace API.Controllers
         {
             return _service.ListarCarrinho();
         }
+
+        [HttpPost("Adicionar-Produto-Carrinho")]
+        public void AdicionarAluno(Carrinho carrinho)
+        {
+            _service.Adicionar(carrinho);
+        }
     }
 }

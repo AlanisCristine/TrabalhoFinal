@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
 namespace TrabalhoFinal._01_Service
@@ -20,6 +21,11 @@ namespace TrabalhoFinal._01_Service
         public List<CarrinhoDTO> ListarCarrinho()
         {
             return repository.ListarCarrinho();
+        }
+
+        public void Adicionar(Carrinho carrinho)
+        {
+            repository.AdicionarProdutoCarrinho(carrinho);
         }
     }
 }

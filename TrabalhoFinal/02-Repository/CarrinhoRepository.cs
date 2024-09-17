@@ -48,5 +48,11 @@ namespace TrabalhoFinal._02_Repository
             }
             return carrinhosDTO;
         }
+
+        public void AdicionarProdutoCarrinho(Carrinho car)
+        {
+            using var connection = new SQLiteConnection(ConnectionString);
+            connection.Insert<Carrinho>(car);
+        }
     }
 }
