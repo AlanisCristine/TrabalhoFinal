@@ -27,6 +27,12 @@ namespace API.Controllers
             return _service.ListarCarrinho();
         }
 
+        [HttpGet("Listar-Carrinho-Por-Id")]
+        public List<ReadCarrinhoDTO> ListarCarrinhoPorId(int id)
+        {
+            return _service.ListarCarrinhoPorId(id);
+        }
+
         [HttpPost("Adicionar-Produto-Carrinho")]
         public void AdicionarAluno(Carrinho carrinho)
         {
