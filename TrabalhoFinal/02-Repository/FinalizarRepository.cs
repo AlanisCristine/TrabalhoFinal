@@ -14,10 +14,14 @@ namespace TrabalhoFinal._02_Repository
     public class FinalizarRepository
     {
         public readonly string ConnectionString;
+        private readonly PessoaRepository _repositoryPessoa;
+        private readonly ProdutoRepository _repositoryProduto;
 
         public FinalizarRepository(string connectionString)
         {
             ConnectionString = connectionString;
+            _repositoryPessoa = new PessoaRepository(connectionString);
+            _repositoryProduto = new ProdutoRepository(connectionString);
         }
 
         public List<ReadCarrinhoDTO> ListarCarrinhoPorId(int id)
@@ -28,8 +32,14 @@ namespace TrabalhoFinal._02_Repository
             foreach (Carrinho c in carrinhos)
             {
                 if (c.Id == id)
-                { 
-                    ReadCarrinhoDTO 
+                {
+                    ReadCarrinhoDTO carDTO = new ReadCarrinhoDTO();
+                    //preencher o objeto
+                    carDTO.IdPessoa = c.IdPessoa;
+                    carDTO.Pessoa = _repositoryPessoa.BuscarPorId(c.IdPessoa);
+                    carDTO.IdProduto = c.IdProduto;
+                    carDTO.Produto = _repositoryProduto.BuscarPorId(c.IdProduto);
+                    
                     carrinhos.Add(c);                   
                 }               
             }

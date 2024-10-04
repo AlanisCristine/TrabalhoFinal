@@ -34,7 +34,7 @@ namespace API.Controllers
         }
 
         [HttpPost("Adicionar-Produto-Carrinho")]
-        public void AdicionarAluno(Carrinho carrinho)
+        public void AdicionarAluno([FromBody]Carrinho carrinho)
         {
             _service.Adicionar(carrinho);
         }

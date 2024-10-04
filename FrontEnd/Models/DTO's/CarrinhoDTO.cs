@@ -4,21 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TrabalhoFinal._03_Entidade.DTOs
+namespace FrontEnd.Models.DTO
 {
     public class CarrinhoDTO
     {
         public int Id { get; set; }
-        public Pessoa Pessoa { get; set; }
-        public int IdPessoa { get; set; }
-        public Produto Produto { get; set; }
+        public Usuario Usuario { get; set; }
+        public int IdUsuario     { get; set; }
+       public Produto Produto { get; set; }
         public int IdProduto { get; set; }
 
         public override string ToString()
         {
-            return $"Usuario: {Pessoa.Nome} - Produto: {Produto.Nome} - Preço: {Produto.Preco}" +
+            return $"Usuario: {Usuario.nome} - Produto: {Produto.Nome} - Preço: {Produto.Preco}" +
                 $" \n ------------------------------------------ ";
-
+           
         }
+
     }
 }
+
