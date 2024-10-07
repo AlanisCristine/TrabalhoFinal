@@ -20,5 +20,10 @@ namespace TrabalhoFinal._03_Entidade.DTOs
                 $" \n ------------------------------------------ ";
 
         }
+        public string ToStringProduto()
+        {
+            return $"Produto : {Produto.Nome} - Preço: {Produto.Preco}";
+        }
+        
     }
 }

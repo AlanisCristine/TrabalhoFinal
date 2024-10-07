@@ -18,12 +18,12 @@ namespace FrontEnd.UseCases
         }
         public void ComprarProduto(Carrinho car)
         {
-            HttpResponseMessage response = _client.PostAsJsonAsync("Adicionar-Produto-Carrinho", car).Result;
+            HttpResponseMessage response = _client.PostAsJsonAsync("Carrinho/adicionar-carrinho", car).Result;
         }
 
         public List<CarrinhoDTO> ListarCarrinhoPreenchido()
         {
-            return _client.GetFromJsonAsync<List<CarrinhoDTO>>("Carrinho/Listar-Produtos-do-Carrinho").Result;
+            return _client.GetFromJsonAsync<List<CarrinhoDTO>>("Carrinho/listar-carrinho").Result;
         }
         public List<CarrinhoDTO> ListarCarrinhoPorId(Pessoa usuariologado)
         {

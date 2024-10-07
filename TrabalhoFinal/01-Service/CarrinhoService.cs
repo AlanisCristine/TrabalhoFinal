@@ -1,39 +1,42 @@
-﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using TrabalhoFinal._02_Repository;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
-namespace TrabalhoFinal._01_Service
+namespace TrabalhoFinal._01_Services;
+
+public class CarrinhoService
 {
-    public class CarrinhoService
+    public CarrinhoRepository repository { get; set; }
+    public CarrinhoService(string _config)
     {
-        public CarrinhoRepository repository { get; set; }
-        public FinalizarRepository repositoryFinalizar { get; set; }
+        repository = new CarrinhoRepository(_config);
+    }
+    public void Adicionar(Carrinho carrinho)
+    {
+        repository.Adicionar(carrinho);
+    }
 
-        public CarrinhoService(string _config, IMapper mapper)
-        {
-            repository = new CarrinhoRepository(_config, mapper);
-            repositoryFinalizar = new FinalizarRepository(_config);
-        }
-        public List<CarrinhoDTO> ListarCarrinho()
-        {
-            return repository.ListarCarrinho();
-        }
-
-        public List<ReadCarrinhoDTO> ListarCarrinhoPorId(int id)
-        {
-            return repositoryFinalizar.ListarCarrinhoPorId(id);
-        }
+    public void Remover(int id)
+    {
+        repository.Remover(id);
+    }
+    public List<CarrinhoDTO> ListarCarrinhoPreenchido(int usuarioId)
+    {
+        return repository.ListarCarrinhoPreenchido(usuarioId);
+    }
 
 
-        public void Adicionar(Carrinho carrinho)
-        {
-            repository.AdicionarProdutoCarrinho(carrinho);
-        }
+    public List<Carrinho> Listar()
+    {
+        return repository.Listar();
+    }
+    public Carrinho BuscarTimePorId(int id)
+    {
+        return repository.BuscarPorId(id);
+    }
+    public void Editar(Carrinho editPessoa)
+    {
+        repository.Editar(editPessoa);
     }
 }

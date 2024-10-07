@@ -1,42 +1,49 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using TrabalhoFinal._01_Service;
-using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._01_Services;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class CarrinhoController : ControllerBase
 {
-    public class CarrinhoController: ControllerBase
+    private readonly CarrinhoService _service;
+    private readonly IMapper _mapper;
+    public CarrinhoController(IConfiguration config, IMapper mapper)
     {
-        private readonly IMapper _mapper;
-        private readonly CarrinhoService _service;
+        string _config = config.GetConnectionString("DefaultConnection");
+        _service = new CarrinhoService(_config);
+        _mapper = mapper;
+    }
+    [HttpPost("adicionar-carrinho")]
+    public void AdicionarAluno(Carrinho carrinhoDTO)
+    {
+        Carrinho carrinho = _mapper.Map<Carrinho>(carrinhoDTO);
+        _service.Adicionar(carrinho);
+    }
+    [HttpGet("listar-carrinho")]
+    public List<Carrinho> ListarAluno()
+    {
+        return _service.Listar();
+    }
+    [HttpGet("Listar-Produtos-do-Carrinho")]
+    public List<CarrinhoDTO> ListarCarrinho(int usuarioId)
+    {
+        return _service.ListarCarrinhoPreenchido(usuarioId);
+    }
 
 
-        public CarrinhoController(IMapper mapper, IConfiguration config)
-        {
-            string _config = config.GetConnectionString("DefaultConnection");
-            _mapper = mapper;
-            _service = new CarrinhoService(_config, mapper);
-        }
-
-
-        [HttpGet("Listar-Produtos-Carrinho")]
-        public List<CarrinhoDTO> ListarCarrinho()
-        {
-            return _service.ListarCarrinho();
-        }
-
-        [HttpGet("Listar-Carrinho-Por-Id")]
-        public List<ReadCarrinhoDTO> ListarCarrinhoPorId(int id)
-        {
-            return _service.ListarCarrinhoPorId(id);
-        }
-
-        [HttpPost("Adicionar-Produto-Carrinho")]
-        public void AdicionarAluno([FromBody]Carrinho carrinho)
-        {
-            _service.Adicionar(carrinho);
-        }
+    [HttpPut("editar-carrinho")]
+    public void EditarCarrinho(Carrinho p)
+    {
+        _service.Editar(p);
+    }
+    [HttpDelete("deletar-carrinho")]
+    public void DeletarCarrinho(int id)
+    {
+        _service.Remover(id);
     }
 }

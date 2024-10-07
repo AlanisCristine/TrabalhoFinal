@@ -11,58 +11,35 @@ namespace TrabalhoFinal._02_Repository;
 
 public class PessoaRepository
 {
-    public readonly string ConnectionString;
-
-    public PessoaRepository(string connectionString)
+    private readonly string ConnectionString;
+    public PessoaRepository(string connectioString)
     {
-        ConnectionString = connectionString;
+        ConnectionString = connectioString;
     }
-
-    public void AdicionarPessoa(Pessoa pes)
-    {
-        using var connection = new SQLiteConnection(ConnectionString); //Cria conexão
-        connection.Insert<Pessoa>(pes);
-    }
-
-    public void RemoverPessoa(int id)
-    {
-        using var connection = new SQLiteConnection(ConnectionString); //Cria conexão                                    
-        Pessoa novoProduto = BuscarPorId(id);
-        connection.Delete<Pessoa>(novoProduto);
-    }
-
-    public void Editar(Pessoa pes)
+    public void Adicionar(Pessoa usuario)
     {
         using var connection = new SQLiteConnection(ConnectionString);
-        connection.Update<Pessoa>(pes);
+        connection.Insert<Pessoa>(usuario);
     }
-
-    public List<Pessoa> ListarPessoa()
+    public void Remover(int id)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        Pessoa usuario = BuscarPorId(id);
+        connection.Delete<Pessoa>(usuario);
+    }
+    public void Editar(Pessoa usuario)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        connection.Update<Pessoa>(usuario);
+    }
+    public List<Pessoa> Listar()
     {
         using var connection = new SQLiteConnection(ConnectionString);
         return connection.GetAll<Pessoa>().ToList();
     }
-
     public Pessoa BuscarPorId(int id)
     {
         using var connection = new SQLiteConnection(ConnectionString);
         return connection.Get<Pessoa>(id);
     }
-
-    public Pessoa BuscarPorUserName(string user)
-    {
-        using var connection = new SQLiteConnection(ConnectionString);
-
-        List<Pessoa> todomundodobanco = ListarPessoa();
-
-        foreach(Pessoa x in todomundodobanco)
-        {
-            if (x.UserName == user)
-            {
-                return x;
-            }
-        }
-        return null;
-    }
-
 }

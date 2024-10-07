@@ -30,7 +30,7 @@ public static class InicializadorBD
                   Nome TEXT NOT NULL,
                   UserName STRING NOT NULL,
                   Senha INT NOT NULL,
-                  Endereco STRING NOT NULL
+                  Email STRING NOT NULL
                 );";
 
         commandoSQL += @"   

@@ -1,58 +1,72 @@
-﻿using AutoMapper;
+﻿
+using Dapper;
 using Dapper.Contrib.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
-namespace TrabalhoFinal._02_Repository
+namespace TrabalhoFinal._02_Repository;
+
+public class CarrinhoRepository
 {
-    public class CarrinhoRepository
+    private readonly string ConnectionString;
+    private readonly PessoaRepository _repositoryUsuario;
+    private readonly ProdutoRepository _repositoryProduto;
+    public CarrinhoRepository(string connectioString)
     {
-        private readonly string ConnectionString;
-        private readonly IMapper _mapper;
-        private readonly PessoaRepository _repositoryPessoa;
-        private readonly ProdutoRepository _repositoryProduto;
+        ConnectionString = connectioString;
+        _repositoryUsuario = new PessoaRepository(connectioString);
+        _repositoryProduto = new ProdutoRepository(connectioString);
+    }
+    public void Adicionar(Carrinho carrinho)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        connection.Insert<Carrinho>(carrinho);
+    }
+    public void Remover(int id)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        Carrinho carrinho = BuscarPorId(id);
+        connection.Delete<Carrinho>(carrinho);
+    }
+    public void Editar(Carrinho carrinho)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        connection.Update<Carrinho>(carrinho);
+    }
+    public List<Carrinho> Listar()
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        return connection.GetAll<Carrinho>().ToList();
+    }
+    public Carrinho BuscarPorId(int id)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        return connection.Get<Carrinho>(id);
+    }
 
-        public CarrinhoRepository(string connectionString)
-        {
-            ConnectionString = connectionString;
-        }
+    public List<CarrinhoDTO> ListarCarrinhoPreenchido(int usuarioId)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        List<Carrinho> list = connection.Query<Carrinho>($"SELECT Id, IdPessoa , IdProduto FROM Carrinhos WHERE IdPessoa = {usuarioId}").ToList();
+        List<CarrinhoDTO> listDTO = TransformarListaCarrinhoEmCarrinhoDTO(list);
+        return listDTO;
+    }
 
-        public CarrinhoRepository(string connectionString, IMapper mapper)
-        {
-            ConnectionString = connectionString;
-            _mapper = mapper;
-            _repositoryPessoa = new PessoaRepository(connectionString);
-            _repositoryProduto = new ProdutoRepository(connectionString);
-        }
 
-        public List<CarrinhoDTO> ListarCarrinho()
-        {
-            using var connection = new SQLiteConnection(ConnectionString);
-            List<Carrinho> carrinhos = connection.GetAll<Carrinho>().ToList();
-            List<CarrinhoDTO> carrinhosDTO = new List<CarrinhoDTO>();//_mapper.Map<List<ReadRotinaDTO>>(lista);
-            foreach (Carrinho c in carrinhos)
-            {
-                CarrinhoDTO carrinhoDTO = new CarrinhoDTO();
-                carrinhoDTO.Id = c.Id;
-                carrinhoDTO.IdPessoa = c.IdPessoa;
-                carrinhoDTO.Pessoa = _repositoryPessoa.BuscarPorId(c.IdPessoa);
-                carrinhoDTO.IdProduto = c.IdProduto;
-                carrinhoDTO.Produto = _repositoryProduto.BuscarPorId(c.IdProduto);
-                carrinhosDTO.Add(carrinhoDTO);
-            }
-            return carrinhosDTO;
-        }
 
-        public void AdicionarProdutoCarrinho(Carrinho car)
+    private List<CarrinhoDTO> TransformarListaCarrinhoEmCarrinhoDTO(List<Carrinho> list)
+    {
+        List<CarrinhoDTO> listDTO = new List<CarrinhoDTO>();
+
+        foreach (Carrinho car in list)
         {
-            using var connection = new SQLiteConnection(ConnectionString);
-            connection.Insert<Carrinho>(car);
+            CarrinhoDTO Carrinho = new CarrinhoDTO();
+            Carrinho.Produto = _repositoryProduto.BuscarPorId(car.IdProduto);
+            Carrinho.Pessoa = _repositoryUsuario.BuscarPorId(car.IdPessoa);
+            listDTO.Add(Carrinho);
         }
+        return listDTO;
     }
 }
+

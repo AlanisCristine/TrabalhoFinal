@@ -16,7 +16,7 @@ namespace TrabalhoFinal._03_Entidade
         [MinLength(2, ErrorMessage = "Ultrapassou o limite de caracteres")]
         public string Nome { get; set; }
 
-        public decimal Preco { get; set; }
+        public double Preco { get; set; }
         public int Estoque { get; set;}
 
 

@@ -10,45 +10,42 @@ namespace API.Controllers
     [Route("[controller]")]
     public class PessoaController : ControllerBase
     {
-        private PessoaService _service;
+        private readonly PessoaService _service;
         private readonly IMapper _mapper;
-        public PessoaController(IMapper mapper,IConfiguration config)
+        public PessoaController(IConfiguration config, IMapper mapper)
         {
-            string conectionstring = config.GetConnectionString("DefaultConnection");
+            string _config = config.GetConnectionString("DefaultConnection");
+            _service = new PessoaService(_config);
             _mapper = mapper;
-            _service = new PessoaService(conectionstring);
         }
-
-        [HttpPost("Adicionar-Pessoa")]
-        public void AdicionarPessoa(CreatePessoaDTO p)
-        { 
-            Pessoa pessoa= _mapper.Map<Pessoa>(p);
-            _service.AdicionarPessoa(pessoa);
-        }
-
-        [HttpGet("Logar-Pessoa")]
-        public LoginPessoaDTO Login([FromQuery] LoginDTO p)
+        [HttpPost("adicionar-usuario")]
+        public void AdicionarAluno(Pessoa usuarioDTO)
         {
-            return _service.Login(p.UserName, p.Senha);
+            //Usuario usuario = _mapper.Map<Usuario>(usuarioDTO);
+            _service.Adicionar(usuarioDTO);
         }
 
-
-        [HttpGet("Listar-Pessoa")]
-        public List<Pessoa> ListarPessoa()
+        [HttpPost("Fazer-Login")]
+        public Pessoa FazerLogin(LoginDTO usuarioLoginDTO)
         {
-            return _service.ListarPessoa();
+            Pessoa usu = _service.FazerLogin(usuarioLoginDTO);
+            return usu;
         }
 
-        [HttpDelete("Remover-Pessoa")]
-        public void RemoverPessoa(int id)
+        [HttpGet("listar-usuario")]
+        public List<Pessoa> ListarAluno()
         {
-            _service.RemoverPessoa(id);
+            return _service.Listar();
         }
-
-        [HttpPut("Editar-Pessoa")]
-        public void EditarPessoa(Pessoa pessoa)
+        [HttpPut("editar-usuario")]
+        public void EditarUsuario(Pessoa p)
         {
-            _service.EditarPessoa(pessoa);
+            _service.Editar(p);
+        }
+        [HttpDelete("deletar-usuario")]
+        public void DeletarUsuario(int id)
+        {
+            _service.Remover(id);
         }
     }
 }

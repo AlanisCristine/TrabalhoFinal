@@ -12,68 +12,44 @@ namespace TrabalhoFinal._01_Service
     public class PessoaService
     {
         public PessoaRepository repository { get; set; }
-
-        public PessoaService(string ConnectionString)
+        public PessoaService(string _config)
         {
-            repository = new PessoaRepository(ConnectionString);
+            repository = new PessoaRepository(_config);
+        }
+        public void Adicionar(Pessoa usuario)
+        {
+            repository.Adicionar(usuario);
         }
 
-        public void AdicionarPessoa(Pessoa pessoa)
+        public Pessoa FazerLogin(LoginDTO usuarioLoginDTO)
         {
-            repository.AdicionarPessoa(pessoa);
+            List<Pessoa> listarusuario = Listar();
+            foreach (Pessoa usuario in listarusuario)
+            {
+                if (usuario.UserName == usuarioLoginDTO.UserName && usuario.Senha == usuarioLoginDTO.Senha)
+                {
+                    return usuario;
+                }
+            }
+            return null;
         }
 
-        public void RemoverPessoa(int id)
+        public void Remover(int id)
         {
-            repository.RemoverPessoa(id);
+            repository.Remover(id);
         }
 
-        public List<Pessoa> ListarPessoa()
+        public List<Pessoa> Listar()
         {
-
-            return repository.ListarPessoa();
+            return repository.Listar();
         }
-        public Pessoa buscarporid(int id)
+        public Pessoa BuscarTimePorId(int id)
         {
             return repository.BuscarPorId(id);
         }
-
-        public void EditarPessoa(Pessoa editPessoa)
+        public void Editar(Pessoa editPessoa)
         {
             repository.Editar(editPessoa);
         }
-
-        public LoginPessoaDTO Login(string user, string passw)
-        {
-            LoginPessoaDTO pessoaReturn = new LoginPessoaDTO();
-            bool verificacao = false; //se logou ou não
-
-            Pessoa p = repository.BuscarPorUserName(user);//retorna a pessoa se tiver criada no banco
-
-            if (p == null)
-            {
-                p = new Pessoa();
-                verificacao = false;
-                pessoaReturn.Login = verificacao;
-            }//verifica o nome
-            if (passw == p.Senha)
-            {
-                    verificacao = true;
-            }//verifica a senha
-
-            if (!verificacao)
-            {
-                return pessoaReturn;
-            }//se a verificação não estiver correta, não retorna nada e caba o método.
-
-            pessoaReturn.Login = verificacao;
-            pessoaReturn.Nome = p.Nome;
-            pessoaReturn.UserName = p.UserName;
-            pessoaReturn.Senha = p.Senha;
-            pessoaReturn.Endereco = p.Endereco;
-
-            return pessoaReturn;
-        }
-
     }
 }
