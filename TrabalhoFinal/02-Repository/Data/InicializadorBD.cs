@@ -36,6 +36,7 @@ public static class InicializadorBD
         commandoSQL += @"   
                  CREATE TABLE IF NOT EXISTS CARRINHOS(
                  Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                 IdVenda INTEGER NULL,
                  IdPessoa INTEGER NOT NULL,
                  IdProduto INTEGER NOT NULL
                  );";
@@ -46,7 +47,7 @@ public static class InicializadorBD
                  Rua STRING NOT NULL,
                  Bairro STRING NOT NULL,
                  Numero INTEGER NOT NULL,
-                 UsuarioId int NOT NULL
+                 IdPessoa int NOT NULL
                  );";
 
         commandoSQL += @"   

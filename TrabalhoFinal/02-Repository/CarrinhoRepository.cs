@@ -48,7 +48,7 @@ public class CarrinhoRepository
     public List<CarrinhoDTO> ListarCarrinhoPreenchido(int usuarioId)
     {
         using var connection = new SQLiteConnection(ConnectionString);
-        List<Carrinho> list = connection.Query<Carrinho>($"SELECT Id, IdPessoa , IdProduto FROM Carrinhos WHERE IdPessoa = {usuarioId}").ToList();
+        List<Carrinho> list = connection.Query<Carrinho>($"SELECT Id, IdPessoa , IdVenda, IdProduto FROM Carrinhos WHERE IdPessoa = {usuarioId}").ToList();
         List<CarrinhoDTO> listDTO = TransformarListaCarrinhoEmCarrinhoDTO(list);
         return listDTO;
     }

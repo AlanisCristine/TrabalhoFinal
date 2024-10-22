@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,10 @@ namespace TrabalhoFinal._03_Entidade
         public decimal Preco { get; set; }
         public int Estoque { get; set;}
 
+        public override string ToString()
+        {
+            return $"Id: {Id} - Nome: {Nome} - Preco: {Preco} - Estoque: {Estoque}";
+        }
 
     }
 }

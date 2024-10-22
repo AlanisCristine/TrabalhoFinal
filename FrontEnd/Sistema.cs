@@ -25,7 +25,7 @@ public class Sistema
     {
         _pessoaUC = new PessoaUC(client);
         _produtoUC = new ProdutoUC(client);
-        //_carrinhoUC = new CarrinhoUC(client);
+        _carrinhoUC = new CarrinhoUC(client);
         _enderecoUC = new EnderecoUC(client);
     }
 

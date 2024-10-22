@@ -10,6 +10,7 @@ namespace TrabalhoFinal._03_Entidade
     {
         public int Id { get; set; }
         public int IdPessoa { get; set; }
+        public int IdVenda{ get; set; }
         public  int IdProduto { get; set; }
     }
 }

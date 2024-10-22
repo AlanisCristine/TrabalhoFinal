@@ -32,7 +32,7 @@ namespace TrabalhoFinal._02_Repository
         public List<Endereco> ListarEnderecoPorId(int usuarioId)
         {
             using var connection = new SQLiteConnection(ConnectionString);
-            List<Endereco> list = connection.Query<Endereco>($"SELECT Id, Rua, Numero, Bairro, UsuarioId  FROM Enderecos WHERE UsuarioId = {usuarioId}").ToList();
+            List<Endereco> list = connection.Query<Endereco>($"SELECT Id, Rua, Numero, Bairro, IdPessoa  FROM Enderecos WHERE IdPessoa = {usuarioId}").ToList();
             return list;
         }
         public void Editar(Endereco endereco)

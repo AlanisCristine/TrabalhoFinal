@@ -19,6 +19,9 @@ namespace TrabalhoFinal._03_Entidade
         public double Preco { get; set; }
         public int Estoque { get; set;}
 
-
+        public override string ToString()
+        {
+            return $"Id: {Id} - Nome: {Nome} - Preco: {Preco} - Estoque: {Estoque}";
+        }
     }
 }
