@@ -7,7 +7,7 @@ using TrabalhoFinal._03_Entidade;
 
 namespace TrabalhoFinal._01_Service.Interfaces
 {
-    public interface IProdutoServicecs
+    public interface IProdutoService
     {
         void AdicionarProduto(Produto produto);
         void RemoverProduto(int id);

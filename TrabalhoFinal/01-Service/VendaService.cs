@@ -6,7 +6,7 @@ using TrabalhoFinal._02_Repository.Interfaces;
 
 namespace Core._01_Services
 {
-    public class VendaService : IVendaServicecs
+    public class VendaService : IVendaService
     {
         public IVendaRepository repository { get; set; }
         public VendaService(string _config)

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TrabalhoFinal._01_Service.Interfaces
 {
-    public interface IVendaServicecs
+    public interface IVendaService
     {
         void Adicionar(Venda venda);
         void Remover(int id);

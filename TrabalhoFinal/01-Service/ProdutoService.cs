@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._02_Repository;
 using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
