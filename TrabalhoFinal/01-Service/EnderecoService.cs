@@ -1,16 +1,13 @@
 ﻿using Core._03_Entidades;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._02_Repository.Interfaces;
 
 namespace TrabalhoFinal._01_Service
 {
-    public class EnderecoService
+    public class EnderecoService : IEnderecoService
     {
-        public EnderecoRepository repository { get; set; }
+        public IEnderecoRepository repository { get; set; }
         public EnderecoService(string _config)
         {
             repository = new EnderecoRepository(_config);

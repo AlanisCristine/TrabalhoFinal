@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
 
 namespace TrabalhoFinal._01_Service
 {
-    public class ProdutoService
+    public class ProdutoService: IProdutoService
     {
-        public ProdutoRepository repository { get; set; }
+        public IProdutoRepository repository { get; set; }
 
         public ProdutoService(string ConnectionString)
         {

@@ -6,11 +6,12 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
 
 namespace TrabalhoFinal._02_Repository
 {
-    public class ProdutoRepository
+    public class ProdutoRepository : IProdutoRepository
     {  
         private readonly string ConnectionString;
         public ProdutoRepository(string connectionString)

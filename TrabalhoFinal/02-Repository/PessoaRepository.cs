@@ -5,11 +5,12 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
 
 namespace TrabalhoFinal._02_Repository;
 
-public class PessoaRepository
+public class PessoaRepository : IPessoaRepository
 {
     private readonly string ConnectionString;
     public PessoaRepository(string connectioString)

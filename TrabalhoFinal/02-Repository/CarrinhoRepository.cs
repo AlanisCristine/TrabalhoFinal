@@ -2,16 +2,17 @@
 using Dapper;
 using Dapper.Contrib.Extensions;
 using System.Data.SQLite;
+using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
 namespace TrabalhoFinal._02_Repository;
 
-public class CarrinhoRepository
+public class CarrinhoRepository : ICarrinhoRepository
 {
     private readonly string ConnectionString;
-    private readonly PessoaRepository _repositoryUsuario;
-    private readonly ProdutoRepository _repositoryProduto;
+    private readonly IPessoaRepository _repositoryUsuario;
+    private readonly IProdutoRepository _repositoryProduto;
     public CarrinhoRepository(string connectioString)
     {
         ConnectionString = connectioString;

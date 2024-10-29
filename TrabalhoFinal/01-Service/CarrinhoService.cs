@@ -1,13 +1,15 @@
 ﻿
+using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
 namespace TrabalhoFinal._01_Services;
 
-public class CarrinhoService
+public class CarrinhoService : ICarrinhoService
 {
-    public CarrinhoRepository repository { get; set; }
+    public ICarrinhoRepository repository { get; set; }
     public CarrinhoService(string _config)
     {
         repository = new CarrinhoRepository(_config);

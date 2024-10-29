@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
 namespace TrabalhoFinal._01_Service
 {
-    public class PessoaService
+    public class PessoaService : IPessoaService
     {
-        public PessoaRepository repository { get; set; }
+        public IPessoaRepository repository { get; set; }
         public PessoaService(string _config)
         {
             repository = new PessoaRepository(_config);

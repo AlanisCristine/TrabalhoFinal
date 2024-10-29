@@ -3,15 +3,17 @@ using Dapper.Contrib.Extensions;
 using FrontEnd;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TrabalhoFinal._02_Repository;
+using TrabalhoFinal._02_Repository.Interfaces;
 
 namespace Core._02_Repository;
 
-public class VendaRepository
+public class VendaRepository : IVendaRepository
 {
     private readonly string ConnectionString;
     private readonly CarrinhoRepository _repositoryCarrinho;

@@ -7,10 +7,11 @@ using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrabalhoFinal._02_Repository.Interfaces;
 
 namespace TrabalhoFinal._02_Repository
 {
-    public class EnderecoRepository
+    public class EnderecoRepository : IEnderecoRepository
     {
         private readonly string ConnectionString;
         public EnderecoRepository(string connectioString)
