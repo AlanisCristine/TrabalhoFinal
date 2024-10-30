@@ -1,5 +1,6 @@
 ﻿using Core._03_Entidades;
 using System.Net.Http.Json;
+using TrabalhoFinal._03_Entidade;
 
 namespace FrontEnd.UseCases
 {
@@ -17,6 +18,8 @@ namespace FrontEnd.UseCases
             Venda vendaCadastrada = response.Content.ReadFromJsonAsync<Venda>().Result;
             return vendaCadastrada;
         }
+
+        
 
         public ReadVendaReciboDTO BuscarVendaPorId(int id)
         {

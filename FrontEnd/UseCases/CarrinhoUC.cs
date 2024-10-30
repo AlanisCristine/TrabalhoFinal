@@ -20,7 +20,7 @@ namespace FrontEnd.UseCases
         {
             HttpResponseMessage response = _client.PostAsJsonAsync("Carrinho/adicionar-carrinho", car).Result;
         }
-
+      
         public List<CarrinhoDTO> ListarCarrinhoPreenchido()
         {
             return _client.GetFromJsonAsync<List<CarrinhoDTO>>("Carrinho/listar-carrinho").Result;
