@@ -2,6 +2,7 @@
 using Core._01_Services;
 using Core._03_Entidades;
 using Microsoft.AspNetCore.Mvc;
+using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._01_Services;
 
 namespace API.Controllers;
@@ -10,12 +11,11 @@ namespace API.Controllers;
 [Route("[controller]")]
 public class VendaController : ControllerBase
 {
-    private readonly VendaService _service;
+    private readonly IVendaService _service;
     private readonly IMapper _mapper;
-    public VendaController(IConfiguration config, IMapper mapper)
+    public VendaController(IVendaService vendaService, IMapper mapper)
     {
-        string _config = config.GetConnectionString("DefaultConnection");
-        _service = new VendaService(_config);
+        _service = vendaService;
         _mapper = mapper;
     }
     [HttpPost("adicionar-Venda")]

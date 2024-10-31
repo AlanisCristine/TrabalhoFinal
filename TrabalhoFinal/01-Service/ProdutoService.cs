@@ -12,12 +12,12 @@ namespace TrabalhoFinal._01_Service
 {
     public class ProdutoService: IProdutoService
     {
-        public IProdutoRepository repository { get; set; }
-
-        public ProdutoService(string ConnectionString)
+        private readonly IProdutoRepository repository;
+        public ProdutoService(IProdutoRepository produtoRepository)
         {
-            repository = new ProdutoRepository(ConnectionString);
+            repository = produtoRepository;
         }
+
         public void AdicionarProduto(Produto produto)
         {
             repository.AdicionarProduto(produto);

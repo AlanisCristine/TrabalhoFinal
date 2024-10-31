@@ -8,9 +8,9 @@ namespace TrabalhoFinal._01_Service
     public class EnderecoService : IEnderecoService
     {
         public IEnderecoRepository repository { get; set; }
-        public EnderecoService(string _config)
+        public EnderecoService(IEnderecoRepository enderecoRepository)
         {
-            repository = new EnderecoRepository(_config);
+            repository = enderecoRepository;
         }
         public void Adicionar(Endereco endereco)
         {

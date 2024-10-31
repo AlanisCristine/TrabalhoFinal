@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using TrabalhoFinal._01_Service;
+using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._03_Entidade;
 using TrabalhoFinal._03_Entidade.DTOs;
 
@@ -10,14 +11,15 @@ namespace API.Controllers
     [Route("[controller]")]
     public class PessoaController : ControllerBase
     {
-        private readonly PessoaService _service;
+        private readonly IPessoaService _service;
         private readonly IMapper _mapper;
-        public PessoaController(IConfiguration config, IMapper mapper)
+
+        public PessoaController(IPessoaService service, IMapper mapper)
         {
-            string _config = config.GetConnectionString("DefaultConnection");
-            _service = new PessoaService(_config);
+            _service = service;
             _mapper = mapper;
         }
+
         [HttpPost("adicionar-usuario")]
         public void AdicionarAluno(Pessoa usuarioDTO)
         {

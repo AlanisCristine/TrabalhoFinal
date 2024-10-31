@@ -14,9 +14,9 @@ namespace TrabalhoFinal._01_Service
     public class PessoaService : IPessoaService
     {
         public IPessoaRepository repository { get; set; }
-        public PessoaService(string _config)
+        public PessoaService(IPessoaRepository pessoaRepository)
         {
-            repository = new PessoaRepository(_config);
+            repository = pessoaRepository;
         }
         public void Adicionar(Pessoa usuario)
         {

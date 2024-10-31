@@ -1,4 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -14,9 +15,9 @@ namespace TrabalhoFinal._02_Repository
     public class ProdutoRepository : IProdutoRepository
     {  
         private readonly string ConnectionString;
-        public ProdutoRepository(string connectionString)
+        public ProdutoRepository(IConfiguration connectionString)
         {
-            ConnectionString = connectionString;
+            ConnectionString = connectionString.GetConnectionString("DefaultConnection"); ;
         }
 
         public void AdicionarProduto(Produto pro)

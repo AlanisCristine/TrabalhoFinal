@@ -1,6 +1,7 @@
 ﻿using Core._03_Entidades;
 using Dapper.Contrib.Extensions;
 using FrontEnd;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,15 +17,15 @@ namespace Core._02_Repository;
 public class VendaRepository : IVendaRepository
 {
     private readonly string ConnectionString;
-    private readonly CarrinhoRepository _repositoryCarrinho;
-    private readonly PessoaRepository _repositoryUsuario;
-    private readonly EnderecoRepository _repositoryEndereco;
-    public VendaRepository(string connectioString)
+    private readonly ICarrinhoRepository _repositoryCarrinho;
+    private readonly IPessoaRepository _repositoryUsuario;
+    private readonly IEnderecoRepository _repositoryEndereco;
+    public VendaRepository(IConfiguration config, ICarrinhoRepository repositoryCarrinho, IPessoaRepository repositoryUsuario, IEnderecoRepository repositoryEndereco)
     {
-        ConnectionString = connectioString;
-        _repositoryCarrinho = new(connectioString);
-        _repositoryUsuario = new(connectioString);
-        _repositoryEndereco = new(connectioString);
+        ConnectionString = config.GetConnectionString("DefaultConnection");
+        _repositoryCarrinho = repositoryCarrinho;
+        _repositoryUsuario = repositoryUsuario;
+        _repositoryEndereco = repositoryEndereco;
     }
     public void Adicionar(Venda venda)
     {

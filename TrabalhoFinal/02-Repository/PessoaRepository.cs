@@ -1,4 +1,5 @@
 ﻿using Dapper.Contrib.Extensions;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -13,9 +14,9 @@ namespace TrabalhoFinal._02_Repository;
 public class PessoaRepository : IPessoaRepository
 {
     private readonly string ConnectionString;
-    public PessoaRepository(string connectioString)
+    public PessoaRepository (IConfiguration config)
     {
-        ConnectionString = connectioString;
+        ConnectionString = config.GetConnectionString("DefaultConnection");
     }
     public void Adicionar(Pessoa usuario)
     {

@@ -9,11 +9,12 @@ namespace TrabalhoFinal._01_Services;
 
 public class CarrinhoService : ICarrinhoService
 {
-    public ICarrinhoRepository repository { get; set; }
-    public CarrinhoService(string _config)
+    private readonly ICarrinhoRepository repository;
+    public CarrinhoService(ICarrinhoRepository carrinhoRepository)
     {
-        repository = new CarrinhoRepository(_config);
+        repository = carrinhoRepository;
     }
+
     public void Adicionar(Carrinho carrinho)
     {
         repository.Adicionar(carrinho);

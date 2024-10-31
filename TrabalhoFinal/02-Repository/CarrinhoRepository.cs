@@ -1,6 +1,7 @@
 ﻿
 using Dapper;
 using Dapper.Contrib.Extensions;
+using Microsoft.Extensions.Configuration;
 using System.Data.SQLite;
 using TrabalhoFinal._02_Repository.Interfaces;
 using TrabalhoFinal._03_Entidade;
@@ -10,15 +11,17 @@ namespace TrabalhoFinal._02_Repository;
 
 public class CarrinhoRepository : ICarrinhoRepository
 {
-    private readonly string ConnectionString;
+   
     private readonly IPessoaRepository _repositoryUsuario;
     private readonly IProdutoRepository _repositoryProduto;
-    public CarrinhoRepository(string connectioString)
+    private readonly string ConnectionString;
+    public CarrinhoRepository(IConfiguration config, IPessoaRepository repositoryUsuario, IProdutoRepository repositoryProduto)
     {
-        ConnectionString = connectioString;
-        _repositoryUsuario = new PessoaRepository(connectioString);
-        _repositoryProduto = new ProdutoRepository(connectioString);
+        ConnectionString = config.GetConnectionString("DefaultConnection");
+        _repositoryUsuario = repositoryUsuario;
+        _repositoryProduto = repositoryProduto;
     }
+  
     public void Adicionar(Carrinho carrinho)
     {
         using var connection = new SQLiteConnection(ConnectionString);
