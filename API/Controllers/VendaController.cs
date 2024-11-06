@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core._01_Services;
 using Core._03_Entidades;
+using FrontEnd;
 using Microsoft.AspNetCore.Mvc;
 using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._01_Services;
@@ -29,6 +30,13 @@ public class VendaController : ControllerBase
     {
         return _service.Listar();
     }
+
+    [HttpGet("Listar-Venda-do-Preenchida")]
+    public List<ReadVendaReciboDTO> ListarCarrinho(int usuarioId)
+    {
+        return _service.ListarVendaPreenchido(usuarioId);
+    }
+
     [HttpPut("editar-Venda")]
     public void EditarProduto(Venda v)
     {

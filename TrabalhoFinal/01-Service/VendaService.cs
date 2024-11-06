@@ -22,6 +22,10 @@ namespace Core._01_Services
         {
             repository.Remover(id);
         }
+        public List<ReadVendaReciboDTO> ListarVendaPreenchido(int usuarioId)
+        {
+            return repository.ListarVendaPreenchido(usuarioId);
+        }
 
         public List<Venda> Listar()
         {

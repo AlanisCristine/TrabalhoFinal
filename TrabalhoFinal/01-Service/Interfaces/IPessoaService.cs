@@ -14,7 +14,7 @@ namespace TrabalhoFinal._01_Service.Interfaces
         Pessoa FazerLogin(LoginDTO usuarioLoginDTO);
         void Editar(Pessoa usuario);
         void Remover(int id);
-        List<Pessoa> Listar();
+        public List<Pessoa> Listar();
         Pessoa BuscarTimePorId(int id);
         
 

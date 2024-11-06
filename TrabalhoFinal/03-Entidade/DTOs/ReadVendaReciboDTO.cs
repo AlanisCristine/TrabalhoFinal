@@ -5,6 +5,7 @@ namespace FrontEnd
 {
     public class ReadVendaReciboDTO
     {
+        public int Id { get; set; }
         public Endereco Endereco { get; set; }
         public string NomeUsuario { get; set; }
         public int MetodoPagamento { get; set; }

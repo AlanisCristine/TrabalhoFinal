@@ -1,4 +1,5 @@
 ﻿using Core._03_Entidades;
+using Dapper;
 using Dapper.Contrib.Extensions;
 using FrontEnd;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrabalhoFinal._02_Repository;
 using TrabalhoFinal._02_Repository.Interfaces;
+using TrabalhoFinal._03_Entidade.DTOs;
 
 namespace Core._02_Repository;
 
@@ -20,6 +22,7 @@ public class VendaRepository : IVendaRepository
     private readonly ICarrinhoRepository _repositoryCarrinho;
     private readonly IPessoaRepository _repositoryUsuario;
     private readonly IEnderecoRepository _repositoryEndereco;
+    private readonly IProdutoRepository _repositoryProduto;
     public VendaRepository(IConfiguration config, ICarrinhoRepository repositoryCarrinho, IPessoaRepository repositoryUsuario, IEnderecoRepository repositoryEndereco)
     {
         ConnectionString = config.GetConnectionString("DefaultConnection");
@@ -59,5 +62,32 @@ public class VendaRepository : IVendaRepository
         vendaDTO.Produtos = _repositoryCarrinho.ListarCarrinhoPreenchido(vendaDTO.Endereco.IdPessoa);
         vendaDTO.ValorFinal = v.ValorFinal;
         return vendaDTO;
+    }
+
+    public List<ReadVendaReciboDTO> ListarVendaPreenchido(int usuarioId)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+        List<Venda> list = connection.Query<Venda>($"SELECT Id, IdPessoa , IdVenda, IdProduto FROM Carrinhos WHERE IdPessoa = {usuarioId}").ToList();
+        List<ReadVendaReciboDTO> listDTO = TransformarListaCarrinhoEmCarrinhoDTO(list);
+        return listDTO;
+    }
+
+    private List<ReadVendaReciboDTO> TransformarListaCarrinhoEmCarrinhoDTO(List<Venda> list)
+    {
+        List<ReadVendaReciboDTO> listDTO = new List<ReadVendaReciboDTO>();
+
+        foreach (Venda ven in list)
+        {
+            if (ven.PessoaId > 0)
+            {
+                ReadVendaReciboDTO Venda = new ReadVendaReciboDTO();
+                Venda.Id = ven.Id;
+                Venda.Produtos = _repositoryCarrinho.ListarCarrinhoPreenchido(ven.PessoaId);
+                Venda.NomeUsuario = _repositoryUsuario.BuscarPorId(ven.PessoaId).UserName;
+                Venda.Endereco = _repositoryEndereco.BuscarPorId(ven.EnderecoId);
+                listDTO.Add(Venda);
+            }
+        }
+        return listDTO;
     }
 }

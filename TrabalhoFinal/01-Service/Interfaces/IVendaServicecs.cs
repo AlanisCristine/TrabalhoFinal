@@ -15,5 +15,6 @@ namespace TrabalhoFinal._01_Service.Interfaces
         List<Venda> Listar();
         ReadVendaReciboDTO BuscarTimePorId(int id);
         void Editar(Venda editPessoa);
+        public List<ReadVendaReciboDTO> ListarVendaPreenchido(int usuarioId);
     }
 }

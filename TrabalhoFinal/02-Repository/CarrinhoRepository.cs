@@ -66,6 +66,7 @@ public class CarrinhoRepository : ICarrinhoRepository
         foreach (Carrinho car in list)
         {
             CarrinhoDTO Carrinho = new CarrinhoDTO();
+            Carrinho.Id = car.Id;
             Carrinho.Produto = _repositoryProduto.BuscarPorId(car.IdProduto);
             Carrinho.Pessoa = _repositoryUsuario.BuscarPorId(car.IdPessoa);
             listDTO.Add(Carrinho);

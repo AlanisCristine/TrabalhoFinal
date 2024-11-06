@@ -13,7 +13,7 @@ namespace TrabalhoFinal._01_Service
 {
     public class PessoaService : IPessoaService
     {
-        public IPessoaRepository repository { get; set; }
+        public readonly IPessoaRepository repository;
         public PessoaService(IPessoaRepository pessoaRepository)
         {
             repository = pessoaRepository;

@@ -10,7 +10,7 @@ namespace TrabalhoFinal._02_Repository.Interfaces
         void Editar(Venda venda);
         List<Venda> Listar();
         ReadVendaReciboDTO BuscarPorId(int id);
-
+        public List<ReadVendaReciboDTO> ListarVendaPreenchido(int usuarioId);
 
     }
 }
