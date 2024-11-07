@@ -20,6 +20,10 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Adiciona um usuário no banco de dados
+        /// </summary>
+        /// <param name="usuarioDTO"></param>
         [HttpPost("adicionar-usuario")]
         public void AdicionarAluno(Pessoa usuarioDTO)
         {
@@ -27,6 +31,11 @@ namespace API.Controllers
             _service.Adicionar(usuarioDTO);
         }
 
+        /// <summary>
+        /// Faz o login a partir do username e senha de um usuário já cadastrado anteriormente
+        /// </summary>
+        /// <param name="usuarioLoginDTO"></param>
+        /// <returns></returns>
         [HttpPost("Fazer-Login")]
         public Pessoa FazerLogin(LoginDTO usuarioLoginDTO)
         {
@@ -34,16 +43,30 @@ namespace API.Controllers
             return usu;
         }
 
+        /// <summary>
+        /// Lista ussários cadastrados no sistema
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("listar-usuario")]
         public List<Pessoa> ListarAluno()
         {
             return _service.Listar();
         }
+
+        /// <summary>
+        /// Edita os dados de um usuário cadastrado
+        /// </summary>
+        /// <param name="p"></param>
         [HttpPut("editar-usuario")]
         public void EditarUsuario(Pessoa p)
         {
             _service.Editar(p);
         }
+
+        /// <summary>
+        /// Deleta um usuário do banco de Dados
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("deletar-usuario")]
         public void DeletarUsuario(int id)
         {

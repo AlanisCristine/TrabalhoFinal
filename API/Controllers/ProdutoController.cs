@@ -19,6 +19,10 @@ namespace API.Controllers
             _service = produto;
         }
 
+        /// <summary>
+        /// Adiciona um produto no banco de dados
+        /// </summary>
+        /// <param name="p"></param>
         [HttpPost("Adicionar-Produto")]
         public void AdicionarProduto(CreateProdutoDTO p)
         {
@@ -26,18 +30,28 @@ namespace API.Controllers
             _service.AdicionarProduto(produto);
         }
 
+        /// <summary>
+        /// Lista produtos adicionados no banco de dados 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("Listar-Produto")]
         public List<Produto> ListarProduto()
         {
             return _service.ListarProduto();
         }
 
+
+        /// <summary>
+        /// Remove um produto do banco de dados
+        /// </summary>
+        /// <param name="id"></param>
         [HttpDelete("Remover-Produto")]
         public void RemoverProduto(int id)
         {
             _service.RemoverProduto(id);
         }
 
+        //Edita os dados de algum produto cadastrado 
         [HttpPut("Editar-Produto")]
         public void EditarProduto(Produto produto)
         {
