@@ -10,7 +10,7 @@ namespace FrontEnd
         public string NomeUsuario { get; set; }
         public int MetodoPagamento { get; set; }
         public List<CarrinhoDTO> Produtos { get; set; }
-        public double ValorFinal { get; set; }
+        public decimal ValorFinal { get; set; }
 
         public override string ToString()
         {

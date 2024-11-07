@@ -67,12 +67,12 @@ public class VendaRepository : IVendaRepository
     public List<ReadVendaReciboDTO> ListarVendaPreenchido(int usuarioId)
     {
         using var connection = new SQLiteConnection(ConnectionString);
-        List<Venda> list = connection.Query<Venda>($"SELECT Id, IdPessoa , IdVenda, IdProduto FROM Carrinhos WHERE IdPessoa = {usuarioId}").ToList();
-        List<ReadVendaReciboDTO> listDTO = TransformarListaCarrinhoEmCarrinhoDTO(list);
+        List<Venda> list = connection.Query<Venda>($"SELECT Id, PessoaId, ProdutoId, EnderecoId FROM Vendas WHERE PessoaId  = {usuarioId}").ToList();
+        List<ReadVendaReciboDTO> listDTO = TransformarListaVendaEmVendaDTO(list);
         return listDTO;
     }
 
-    private List<ReadVendaReciboDTO> TransformarListaCarrinhoEmCarrinhoDTO(List<Venda> list)
+    private List<ReadVendaReciboDTO> TransformarListaVendaEmVendaDTO(List<Venda> list)
     {
         List<ReadVendaReciboDTO> listDTO = new List<ReadVendaReciboDTO>();
 
@@ -85,6 +85,14 @@ public class VendaRepository : IVendaRepository
                 Venda.Produtos = _repositoryCarrinho.ListarCarrinhoPreenchido(ven.PessoaId);
                 Venda.NomeUsuario = _repositoryUsuario.BuscarPorId(ven.PessoaId).UserName;
                 Venda.Endereco = _repositoryEndereco.BuscarPorId(ven.EnderecoId);
+                decimal somaProdutos = 0;
+                foreach (var item in Venda.Produtos)
+                {
+                    somaProdutos += item.Produto.Preco;
+                } 
+                Venda.ValorFinal = somaProdutos;
+                //Venda.ValorFinal = Venda.Produtos.Where(x => x.IdPessoa == 1).Sum(x => x.Produto.Preco);
+               
                 listDTO.Add(Venda);
             }
         }

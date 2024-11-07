@@ -54,10 +54,10 @@ public static class InicializadorBD
                  CREATE TABLE IF NOT EXISTS Vendas(
                  Id INTEGER PRIMARY KEY AUTOINCREMENT,
                  EnderecoId INTEGER  NOT NULL,
-                 MetodoDePagamento INTEGER NOT NULL,
-                 ValorFinal DOUBLE NOT NULL,
                  PessoaId INTEGER  NOT NULL,
                  ProdutoId INTEGER  NOT NULL,
+                 MetodoDePagamento INTEGER NOT NULL,
+                 ValorFinal DOUBLE NOT NULL
                  );";
 
 

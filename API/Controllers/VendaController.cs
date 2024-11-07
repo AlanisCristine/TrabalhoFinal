@@ -20,9 +20,8 @@ public class VendaController : ControllerBase
         _mapper = mapper;
     }
     [HttpPost("adicionar-Venda")]
-    public void AdicionarAluno(Venda vendaDTO)
+    public void AdicionarAluno(Venda venda)
     {
-        Venda venda = _mapper.Map<Venda>(vendaDTO);
         _service.Adicionar(venda);
     }
     [HttpGet("listar-Venda")]
