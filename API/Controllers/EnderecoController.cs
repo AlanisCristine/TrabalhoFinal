@@ -24,13 +24,21 @@ namespace API.Controllers
         /// <param name="enderecoDTO"></param>
         /// <returns></returns>
         [HttpPost("adicionar-Endereco")]
-        public Endereco AdicionarAluno(Endereco enderecoDTO)
+        public IActionResult AdicionarAluno(Endereco enderecoDTO)
         {
-            Endereco end = _mapper.Map<Endereco>(enderecoDTO);
-            _service.Adicionar(enderecoDTO);
-            return end;
+            try
+            {
+                Endereco end = _mapper.Map<Endereco>(enderecoDTO);
+                _service.Adicionar(enderecoDTO);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Ocorreu um erro ao adicionar um produto, o erro foi \n {e.Message}");
+            }
+
         }
-       
+
         /// <summary>
         /// lista endereços de usuários pelo id
         /// </summary>
@@ -39,7 +47,16 @@ namespace API.Controllers
         [HttpGet("Listar-Enderecos-de-Usuario")]
         public List<Endereco> ListarEndereco([FromQuery] int usuarioId)
         {
-            return _service.ListarEnderecoPorId(usuarioId);
+            try
+            {
+                return _service.ListarEnderecoPorId(usuarioId);
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Erro ao Listar os produtos");
+            }
+
         }
 
         /// <summary>
@@ -47,9 +64,19 @@ namespace API.Controllers
         /// </summary>
         /// <param name="E"></param>
         [HttpPut("Editar-Endereco")]
-        public void EditarProduto(Endereco E)
+        public IActionResult EditarProduto(Endereco E)
         {
-            _service.Editar(E);
+            try
+            {
+                _service.Editar(E);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao editar um usuário, o erro foi \n {e.Message}");
+            }
+
         }
 
         /// <summary>
@@ -57,9 +84,19 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("deletar-endereco")]
-        public void DeletarProduto(int id)
+        public IActionResult DeletarProduto(int id)
         {
-            _service.Remover(id);
+            try
+            {
+                _service.Remover(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao deletar um usuário, o erro foi \n {e.Message}");
+            }
+
         }
     }
 }

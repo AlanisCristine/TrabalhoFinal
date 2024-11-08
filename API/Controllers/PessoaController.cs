@@ -25,10 +25,17 @@ namespace API.Controllers
         /// </summary>
         /// <param name="usuarioDTO"></param>
         [HttpPost("adicionar-usuario")]
-        public void AdicionarAluno(Pessoa usuarioDTO)
+        public IActionResult AdicionarAluno(Pessoa usuarioDTO)
         {
-            //Usuario usuario = _mapper.Map<Usuario>(usuarioDTO);
-            _service.Adicionar(usuarioDTO);
+            try
+            {
+                _service.Adicionar(usuarioDTO);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Ocorreu um erro ao adicionar um usuário, o erro foi \n {e.Message}");
+            }
         }
 
         /// <summary>
@@ -39,8 +46,17 @@ namespace API.Controllers
         [HttpPost("Fazer-Login")]
         public Pessoa FazerLogin(LoginDTO usuarioLoginDTO)
         {
-            Pessoa usu = _service.FazerLogin(usuarioLoginDTO);
-            return usu;
+            try
+            {
+                Pessoa usu = _service.FazerLogin(usuarioLoginDTO);
+                return usu;
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Erro ao fazer login");
+            }
+
         }
 
         /// <summary>
@@ -50,7 +66,16 @@ namespace API.Controllers
         [HttpGet("listar-usuario")]
         public List<Pessoa> ListarAluno()
         {
-            return _service.Listar();
+            try
+            {
+                return _service.Listar();
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Erro ao Listar os usuários");
+            }
+
         }
 
         /// <summary>
@@ -58,9 +83,20 @@ namespace API.Controllers
         /// </summary>
         /// <param name="p"></param>
         [HttpPut("editar-usuario")]
-        public void EditarUsuario(Pessoa p)
+        public IActionResult EditarUsuario(Pessoa p)
         {
-            _service.Editar(p);
+
+            try
+            {
+                _service.Editar(p);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao editar um usuário, o erro foi \n {e.Message}");
+            }
+
         }
 
         /// <summary>
@@ -68,9 +104,19 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("deletar-usuario")]
-        public void DeletarUsuario(int id)
+        public IActionResult DeletarUsuario(int id)
         {
-            _service.Remover(id);
+            try
+            {
+                _service.Remover(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao deletar um usuário, o erro foi \n {e.Message}");
+            }
+
         }
     }
 }

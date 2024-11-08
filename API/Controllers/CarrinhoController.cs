@@ -24,10 +24,20 @@ public class CarrinhoController : ControllerBase
     /// </summary>
     /// <param name="carrinhoDTO"></param>
     [HttpPost("adicionar-carrinho")]
-    public void AdicionarAluno(Carrinho carrinhoDTO)
+    public IActionResult AdicionarAluno(Carrinho carrinhoDTO)
     {
-        Carrinho carrinho = _mapper.Map<Carrinho>(carrinhoDTO);
-        _service.Adicionar(carrinho);
+        try
+        {
+            Carrinho carrinho = _mapper.Map<Carrinho>(carrinhoDTO);
+            _service.Adicionar(carrinho);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+
+            return BadRequest($"Ocorreu um erro ao adicionar um carrinho, o erro foi \n {e.Message}");
+        }
+
     }
 
     /// <summary>
@@ -37,7 +47,16 @@ public class CarrinhoController : ControllerBase
     [HttpGet("listar-carrinho")]
     public List<Carrinho> ListarAluno()
     {
-        return _service.Listar();
+        try
+        {
+            return _service.Listar();
+        }
+        catch (Exception e)
+        {
+
+            throw new Exception("Erro ao Listar o carrinho");
+        }
+
     }
 
     /// <summary>
@@ -48,7 +67,16 @@ public class CarrinhoController : ControllerBase
     [HttpGet("Listar-Produtos-do-Carrinho")]
     public List<CarrinhoDTO> ListarCarrinho(int usuarioId)
     {
-        return _service.ListarCarrinhoPreenchido(usuarioId);
+        try
+        {
+            return _service.ListarCarrinhoPreenchido(usuarioId);
+        }
+        catch (Exception)
+        {
+
+            throw new Exception("Erro ao Listar o carrinho");
+        }
+
     }
 
     /// <summary>
@@ -56,9 +84,18 @@ public class CarrinhoController : ControllerBase
     /// </summary>
     /// <param name="p"></param>
     [HttpPut("editar-carrinho")]
-    public void EditarCarrinho(Carrinho p)
+    public IActionResult EditarCarrinho(Carrinho p)
     {
-        _service.Editar(p);
+        try
+        {
+           _service.Editar(p);
+           return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Ocorreu um erro ao editar o seu carrinho, o erro foi \n {e.Message}");
+        }
+        
     }
 
     /// <summary>
@@ -66,8 +103,17 @@ public class CarrinhoController : ControllerBase
     /// </summary>
     /// <param name="id"></param>
     [HttpDelete("deletar-carrinho")]
-    public void DeletarCarrinho(int id)
+    public IActionResult DeletarCarrinho(int id)
     {
-        _service.Remover(id);
+        try
+        {
+            _service.Remover(id);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Ocorreu um erro ao deletar um usuário, o erro foi \n {e.Message}");
+        }
+        
     }
 }

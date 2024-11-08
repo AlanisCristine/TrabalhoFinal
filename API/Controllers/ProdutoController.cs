@@ -8,7 +8,7 @@ using TrabalhoFinal._03_Entidade.DTOs;
 namespace API.Controllers
 {
     [ApiController]
-        [Route("[controller]")]
+    [Route("[controller]")]
     public class ProdutoController : ControllerBase
     {
         private IProdutoService _service;
@@ -24,10 +24,20 @@ namespace API.Controllers
         /// </summary>
         /// <param name="p"></param>
         [HttpPost("Adicionar-Produto")]
-        public void AdicionarProduto(CreateProdutoDTO p)
+        public IActionResult AdicionarProduto(CreateProdutoDTO p)
         {
-            Produto produto = _mapper.Map<Produto>(p);
-            _service.AdicionarProduto(produto);
+            try
+            {
+                Produto produto = _mapper.Map<Produto>(p);
+                _service.AdicionarProduto(produto);
+                return Ok();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao adicionar um produto, o erro foi \n {e.Message}");
+            }
+
         }
 
         /// <summary>
@@ -37,7 +47,17 @@ namespace API.Controllers
         [HttpGet("Listar-Produto")]
         public List<Produto> ListarProduto()
         {
-            return _service.ListarProduto();
+
+            try
+            {
+                return _service.ListarProduto();
+            }
+            catch (Exception)
+            {
+
+                throw new Exception("Erro ao Listar os produtos");
+            }
+
         }
 
 
@@ -46,16 +66,37 @@ namespace API.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("Remover-Produto")]
-        public void RemoverProduto(int id)
+        public IActionResult RemoverProduto(int id)
         {
-            _service.RemoverProduto(id);
+
+            try
+            {
+                _service.RemoverProduto(id);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao deletar um usuário, o erro foi \n {e.Message}");
+            }
+
         }
 
         //Edita os dados de algum produto cadastrado 
         [HttpPut("Editar-Produto")]
-        public void EditarProduto(Produto produto)
+        public IActionResult EditarProduto(Produto produto)
         {
-            _service.EditarProduto(produto);
+            try
+            {
+                _service.EditarProduto(produto);
+                return NoContent();
+            }
+            catch (Exception e)
+            {
+
+                return BadRequest($"Ocorreu um erro ao editar um usuário, o erro foi \n {e.Message}");
+            }
+
         }
     }
 }

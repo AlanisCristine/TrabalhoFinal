@@ -25,9 +25,19 @@ public class VendaController : ControllerBase
     /// </summary>
     /// <param name="venda"></param>
     [HttpPost("adicionar-Venda")]
-    public void AdicionarAluno(Venda venda)
+    public IActionResult AdicionarAluno(Venda venda)
     {
-        _service.Adicionar(venda);
+        try
+        {
+            _service.Adicionar(venda);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+
+            return BadRequest($"Ocorreu um erro ao adicionar uma venda, o erro foi \n {e.Message}");
+        }
+       
     }
 
     /// <summary>
@@ -37,7 +47,16 @@ public class VendaController : ControllerBase
     [HttpGet("listar-Venda")]
     public List<Venda> ListarAluno()
     {
-        return _service.Listar();
+        try
+        {
+          return _service.Listar();
+        }
+        catch (Exception)
+        {
+
+            throw new Exception("Erro ao Listar as vendas");
+        }
+        
     }
 
     /// <summary>
@@ -48,7 +67,16 @@ public class VendaController : ControllerBase
     [HttpGet("Listar-Venda-do-Preenchida")]
     public List<ReadVendaReciboDTO> ListarCarrinho(int usuarioId)
     {
-        return _service.ListarVendaPreenchido(usuarioId);
+        try
+        {
+          return _service.ListarVendaPreenchido(usuarioId);
+        }
+        catch (Exception)
+        {
+
+            throw new Exception("Erro ao Listar as vendas preenchidas");
+        }
+       
     }
 
     /// <summary>
@@ -56,17 +84,35 @@ public class VendaController : ControllerBase
     /// </summary>
     /// <param name="v"></param>
     [HttpPut("editar-Venda")]
-    public void EditarProduto(Venda v)
+    public IActionResult EditarProduto(Venda v)
     {
-        _service.Editar(v);
+        try
+        {
+            _service.Editar(v);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Ocorreu um erro ao editar uma venda, o erro foi \n {e.Message}");
+        }
+       
     }
     /// <summary>
     /// Deleta uma venda
     /// </summary>
     /// <param name="id"></param>
     [HttpDelete("deletar-Venda")]
-    public void DeletarProduto(int id)
+    public IActionResult DeletarProduto(int id)
     {
-        _service.Remover(id);
+        try
+        {
+          _service.Remover(id);
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            return BadRequest($"Ocorreu um erro ao excluir uma venda, o erro foi \n {e.Message}");
+        }
+        
     }
 }

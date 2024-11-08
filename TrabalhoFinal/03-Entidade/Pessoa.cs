@@ -19,6 +19,7 @@ namespace TrabalhoFinal._03_Entidade
         //public int TipoPessoa { get; set; }
         public string UserName { get; set; }
         public string Senha { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         public override string ToString()
         {
