@@ -274,8 +274,21 @@ public class Sistema
             total += ca.Produto.Preco;
 
         }
-        Console.WriteLine($"Total do carrinho: {total}");
-        Console.WriteLine("Os produtos serão entregues no endereço abaixo");
+
+        if (total >= 100)
+        {
+            Console.WriteLine("Parabéns!! Comprando mais que R$100 na loja, você ganhou o desconto de 10%");
+            double resultado = total - (total - 0.1);
+            Console.WriteLine($"total: {total}");
+            Console.WriteLine($" valor final com desconto: {resultado}");
+        }
+        else
+        {
+            Console.WriteLine($"Total do carrinho: {total}");
+        }
+
+
+       // Console.WriteLine("Os produtos serão entregues no endereço abaixo");
         List<Endereco> enderecos = _enderecoUC.ListarEnderecoPorId(UsuarioLogado);
         foreach (Endereco en in enderecos)
         {
@@ -285,6 +298,7 @@ public class Sistema
         //SALVARVENDA
         //EDITAR CARRINHO(IDVENDA)
     }
+
 
 
 
