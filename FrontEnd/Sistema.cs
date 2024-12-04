@@ -73,7 +73,7 @@ public class Sistema
         Console.WriteLine("2 - Deseja se cadastrar");
         Console.WriteLine("3 - Listar usuario cadastrado");
 
-        return int.Parse(Console.ReadLine());
+        return int.Parse(Console.ReadLine()); //Eu amo o Edson
     }
 
     public Pessoa CriarUsuario()
@@ -112,12 +112,12 @@ public class Sistema
     }
     public void ExibirMenuDoCarrinho()
     {
-        Console.WriteLine("1 - Realizar uma compra");
+        Console.WriteLine("1 - Comprar os Itens do carrinho");
         Console.WriteLine("2 - Excluir Produto carrinho");
-        Console.WriteLine("3 - Adicionar Produto carrinho");
+        Console.WriteLine("3 - Adicionar mais Produto carrinho");
         Console.WriteLine("Qual ação você deseja realizar?");
     }
-        public void ExibirMenuPrincipal()
+    public void ExibirMenuPrincipal()
     {
         Console.WriteLine("1 - Listar Produtos");
         Console.WriteLine("2 - Cadastrar Produtos");
@@ -215,7 +215,7 @@ public class Sistema
         return car;
 
     }
-
+    //Eu amo o Edson
     public void Retirada()
     {
         int idEndereco = 0;
@@ -286,13 +286,13 @@ public class Sistema
             total += ca.Produto.Preco;
 
         }
-
         if (total >= 100)
         {
-            Console.WriteLine("Parabéns!! Comprando mais que R$100 na loja, você ganhou o desconto de 10%");
-            double resultado = total - (total - 0.1);
-            Console.WriteLine($"total: {total}");
-            Console.WriteLine($" valor final com desconto: {resultado}");
+            Console.WriteLine("Parabéns!! Comprando mais que R$100 na loja, você ganhou o desconto de 10%!");
+            double desconto = total * 0.1;
+            double resultado = total - desconto;
+            Console.WriteLine($"Total: R$ {total:F2}");
+            Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
         }
         else
         {
@@ -305,13 +305,15 @@ public class Sistema
         foreach (Endereco en in enderecos)
         {
             Console.WriteLine(en.ToString());
-            Console.WriteLine($"-------------");
+            Console.WriteLine($"--------------------------");
         }
-        //SALVARVENDA
-        //EDITAR CARRINHO(IDVENDA)
+
     }
 
-
+    public void Encerrar()
+    {
+        Console.WriteLine("Obrigada por comprar na Glow 💋!");
+    }
     public void Pagamento()
     {
         Console.WriteLine("Selecione a forma de pagamento");
@@ -335,7 +337,7 @@ public class Sistema
     public void VizualizarCarrinho()
     {
         List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
-         
+
         foreach (CarrinhoDTO carrinhoDTO in carrinhoDTOs)
         {
             Console.WriteLine(carrinhoDTO.ToStringProduto());
@@ -344,7 +346,7 @@ public class Sistema
         int resposta = int.Parse(Console.ReadLine());
         if (resposta == 1)
         {
-            RealizarCompra();
+            Finalizar();
         }
         else if (resposta == 2)
         {
@@ -354,11 +356,15 @@ public class Sistema
             Console.WriteLine("Produto excluído com sucesso");
             foreach (CarrinhoDTO carrinhoDTO in carrinhoDTOs)
             {
-                
+
                 Console.WriteLine(carrinhoDTO.ToStringProduto());
             }
         }
-
+        else if (resposta == 3)
+        {
+            RealizarCompra();
+        }
+        //Eu amo o Edson
     }
 
 
