@@ -29,6 +29,7 @@ public class CarrinhoController : ControllerBase
         try
         {
             Carrinho carrinho = _mapper.Map<Carrinho>(carrinhoDTO);
+
             _service.Adicionar(carrinho);
             return Ok();
         }

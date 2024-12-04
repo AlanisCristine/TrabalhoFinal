@@ -10,6 +10,7 @@ namespace API
         {
             CreateMap<CreateProdutoDTO, Produto>().ReverseMap();
             CreateMap<CreatePessoaDTO, Pessoa>().ReverseMap();
+            CreateMap<CarrinhoDTO, Carrinho>().ReverseMap();
         }
     }
 }

@@ -21,6 +21,10 @@ namespace FrontEnd.Models.DTO
                 $" \n ------------------------------------------ ";
            
         }
+        public string ToStringProduto()
+        {
+            return $"Id : {Id} - Produto : {Produto.Nome} - Preço: {Produto.Preco}";
+        }
 
     }
 }

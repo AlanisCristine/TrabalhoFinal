@@ -25,6 +25,14 @@ public class CarrinhoRepository : ICarrinhoRepository
     public void Adicionar(Carrinho carrinho)
     {
         using var connection = new SQLiteConnection(ConnectionString);
+        Produto p = _repositoryProduto.BuscarPorId(carrinho.IdProduto);
+        Pessoa pes = _repositoryUsuario.BuscarPorId(carrinho.IdPessoa);
+
+        if (p == null || pes == null)
+        {
+            throw new Exception("Id do produto ou da pessoa não existe");
+        }
+       
         connection.Insert<Carrinho>(carrinho);
     }
     public void Remover(int id)

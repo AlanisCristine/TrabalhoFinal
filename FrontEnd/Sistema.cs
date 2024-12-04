@@ -72,6 +72,7 @@ public class Sistema
         Console.WriteLine("1 - Deseja fazer login");
         Console.WriteLine("2 - Deseja se cadastrar");
         Console.WriteLine("3 - Listar usuario cadastrado");
+
         return int.Parse(Console.ReadLine());
     }
 
@@ -109,12 +110,19 @@ public class Sistema
         Console.WriteLine("Logado");
 
     }
-
-    public void ExibirMenuPrincipal()
+    public void ExibirMenuDoCarrinho()
+    {
+        Console.WriteLine("1 - Realizar uma compra");
+        Console.WriteLine("2 - Excluir Produto carrinho");
+        Console.WriteLine("3 - Adicionar Produto carrinho");
+        Console.WriteLine("Qual ação você deseja realizar?");
+    }
+        public void ExibirMenuPrincipal()
     {
         Console.WriteLine("1 - Listar Produtos");
         Console.WriteLine("2 - Cadastrar Produtos");
         Console.WriteLine("3 - Realizar uma compra");
+        Console.WriteLine("4 - Vizualizar meu carrinho");
         Console.WriteLine("Qual ação você deseja realizar?");
         int resposta = int.Parse(Console.ReadLine());
 
@@ -153,6 +161,10 @@ public class Sistema
                 Console.WriteLine(ca.ToString());
 
             }
+        }
+        else if (resposta == 4)
+        {
+            VizualizarCarrinho();
         }
 
     }
@@ -288,7 +300,7 @@ public class Sistema
         }
 
 
-       // Console.WriteLine("Os produtos serão entregues no endereço abaixo");
+        // Console.WriteLine("Os produtos serão entregues no endereço abaixo");
         List<Endereco> enderecos = _enderecoUC.ListarEnderecoPorId(UsuarioLogado);
         foreach (Endereco en in enderecos)
         {
@@ -298,9 +310,6 @@ public class Sistema
         //SALVARVENDA
         //EDITAR CARRINHO(IDVENDA)
     }
-
-
-
 
 
     public void Pagamento()
@@ -323,5 +332,34 @@ public class Sistema
             Console.WriteLine("Você selecionou o Boleto como forma de pagamento.");
         }
     }
+    public void VizualizarCarrinho()
+    {
+        List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
+         
+        foreach (CarrinhoDTO carrinhoDTO in carrinhoDTOs)
+        {
+            Console.WriteLine(carrinhoDTO.ToStringProduto());
+        }
+        ExibirMenuDoCarrinho();
+        int resposta = int.Parse(Console.ReadLine());
+        if (resposta == 1)
+        {
+            RealizarCompra();
+        }
+        else if (resposta == 2)
+        {
+            Console.WriteLine("Qual é o id do produto que você deseja remover?");
+            int id = int.Parse(Console.ReadLine());
+            _carrinhoUC.DeletarProduto(id);
+            Console.WriteLine("Produto excluído com sucesso");
+            foreach (CarrinhoDTO carrinhoDTO in carrinhoDTOs)
+            {
+                
+                Console.WriteLine(carrinhoDTO.ToStringProduto());
+            }
+        }
+
+    }
+
 
 }

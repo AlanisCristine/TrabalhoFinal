@@ -29,5 +29,9 @@ namespace FrontEnd.UseCases
         {
             return _client.GetFromJsonAsync<List<CarrinhoDTO>>("Carrinho/Listar-Produtos-do-Carrinho?usuarioId=" + usuariologado.Id).Result;
         }
+        public void DeletarProduto(int id)
+        {
+            HttpResponseMessage response = _client.DeleteAsync("Carrinho/deletar-carrinho?id=" + id).Result;
+        }
     }
 }
