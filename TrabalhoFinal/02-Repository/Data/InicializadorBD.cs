@@ -28,9 +28,10 @@ public static class InicializadorBD
                   CREATE TABLE IF NOT EXISTS PESSOAS(
                   Id INTEGER PRIMARY KEY AUTOINCREMENT,
                   Nome TEXT NOT NULL,
-                  UserName STRING NOT NULL,
-                  Senha INT NOT NULL,
-                  Email STRING NOT NULL
+                  UserName TEXT NOT NULL,
+                  Senha TEXT NOT NULL,
+                  Email TEXT NOT NULL,
+                  E_funcionario BOOLEAN NOT NULL
                 );";
 
         commandoSQL += @"   
@@ -44,10 +45,10 @@ public static class InicializadorBD
         commandoSQL += @"   
                  CREATE TABLE IF NOT EXISTS Enderecos(
                  Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                 Rua STRING NOT NULL,
-                 Bairro STRING NOT NULL,
-                 Numero INTEGER NOT NULL,
-                 IdPessoa int NOT NULL
+                 Rua TEXT NOT NULL,
+                 Bairro TEXT NOT NULL,
+                 Numero TEXT NOT NULL,
+                 IdPessoa INTEGER NOT NULL
                  );";
 
         commandoSQL += @"   

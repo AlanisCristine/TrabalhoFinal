@@ -9,7 +9,7 @@ namespace TrabalhoFinal._01_Service.Interfaces
 {
     public interface IProdutoService
     {
-        void AdicionarProduto(Produto produto);
+        void AdicionarProduto(Produto produto, bool e_funcionário);
         void RemoverProduto(int id);
         List<Produto> ListarProduto();
         Produto BuscarProdutoPorId(int id);

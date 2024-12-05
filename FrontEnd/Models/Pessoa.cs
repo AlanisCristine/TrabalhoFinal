@@ -20,7 +20,7 @@ namespace TrabalhoFinal._03_Entidade
         public string UserName { get; set; }
         public string Senha { get; set; }
         public string Email { get; set; }
-
+        public bool E_funcionario { get; set; }
         public override string ToString()
         {
             return $"Id: {Id} - Nome: {Nome}";

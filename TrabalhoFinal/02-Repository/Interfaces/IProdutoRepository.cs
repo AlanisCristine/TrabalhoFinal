@@ -9,7 +9,7 @@ namespace TrabalhoFinal._02_Repository.Interfaces
 {
     public interface IProdutoRepository
     {
-        void AdicionarProduto(Produto pro);
+        void AdicionarProduto(Produto pro, bool e_funcionário);
         void RemoverProduto(int id);
         void EditarProduto(Produto pro);
         List<Produto> ListarProduto();

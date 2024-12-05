@@ -18,9 +18,9 @@ namespace TrabalhoFinal._01_Service
             repository = produtoRepository;
         }
 
-        public void AdicionarProduto(Produto produto)
+        public void AdicionarProduto(Produto produto, bool e_funcionário)
         {
-            repository.AdicionarProduto(produto);
+            repository.AdicionarProduto(produto, e_funcionário);
         }
 
         public void RemoverProduto(int id)

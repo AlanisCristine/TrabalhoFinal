@@ -13,17 +13,25 @@ using TrabalhoFinal._03_Entidade;
 namespace TrabalhoFinal._02_Repository
 {
     public class ProdutoRepository : IProdutoRepository
-    {  
+    {
         private readonly string ConnectionString;
         public ProdutoRepository(IConfiguration connectionString)
         {
             ConnectionString = connectionString.GetConnectionString("DefaultConnection"); ;
         }
 
-        public void AdicionarProduto(Produto pro)
+        public void AdicionarProduto(Produto pro, bool e_funcionário)
         {
             using var connection = new SQLiteConnection(ConnectionString); //Cria conexão
-            connection.Insert<Produto>(pro);
+            if (e_funcionário == true)
+            {
+                connection.Insert<Produto>(pro);
+            }
+            else
+            {
+                throw new Exception("Você não é um funcinário da loja, não pode adicionar produtos no sistema.");
+            }
+
         }
 
         public void RemoverProduto(int id)

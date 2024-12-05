@@ -92,7 +92,7 @@
             </summary>
             <param name="id"></param>
         </member>
-        <member name="M:API.Controllers.ProdutoController.AdicionarProduto(TrabalhoFinal._03_Entidade.DTOs.CreateProdutoDTO)">
+        <member name="M:API.Controllers.ProdutoController.AdicionarProduto(TrabalhoFinal._03_Entidade.DTOs.CreateProdutoDTO,System.Boolean)">
             <summary>
             Adiciona um produto no banco de dados
             </summary>

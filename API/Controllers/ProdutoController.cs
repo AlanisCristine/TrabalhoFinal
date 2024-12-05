@@ -24,12 +24,12 @@ namespace API.Controllers
         /// </summary>
         /// <param name="p"></param>
         [HttpPost("Adicionar-Produto")]
-        public IActionResult AdicionarProduto(CreateProdutoDTO p)
+        public IActionResult AdicionarProduto(CreateProdutoDTO p, bool e_funcionário)
         {
             try
             {
                 Produto produto = _mapper.Map<Produto>(p);
-                _service.AdicionarProduto(produto);
+                _service.AdicionarProduto(produto, e_funcionário);
                 return Ok();
             }
             catch (Exception e)

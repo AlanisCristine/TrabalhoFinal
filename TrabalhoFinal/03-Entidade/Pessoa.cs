@@ -21,6 +21,7 @@ namespace TrabalhoFinal._03_Entidade
         public string Senha { get; set; }
         [EmailAddress]
         public string Email { get; set; }
+        public bool E_funcionario { get; set; }
         public override string ToString()
         {
             return $"Id: {Id} - Nome: {Nome}";

@@ -59,9 +59,13 @@ public class Sistema
                     }
                 }
             }
-            else
+            else if (UsuarioLogado.E_funcionario == true)
             {
-                ExibirMenuPrincipal();
+                ExibirMenuPrincipalFuncionário();
+            }
+            else if (UsuarioLogado.E_funcionario == false)
+            {
+                ExibirMenuPrincipalUsuario();
             }
 
         }
@@ -73,7 +77,7 @@ public class Sistema
         Console.WriteLine("2 - Deseja se cadastrar");
         Console.WriteLine("3 - Listar usuario cadastrado");
 
-        return int.Parse(Console.ReadLine()); //Eu amo o Edson
+        return int.Parse(Console.ReadLine());
     }
 
     public Pessoa CriarUsuario()
@@ -87,6 +91,22 @@ public class Sistema
         usuario.Senha = Console.ReadLine();
         Console.WriteLine("Qual é o seu email?");
         usuario.Email = Console.ReadLine();
+        Console.WriteLine("Você é funcionário da loja?");
+        Console.WriteLine("1 - Sim, sou");
+        Console.WriteLine("2 - Não, não sou");
+        int resposta = int.Parse(Console.ReadLine());
+        if (resposta == 1)
+        {
+            usuario.E_funcionario = true;
+        }
+        else if (resposta == 2)
+        {
+            usuario.E_funcionario = false;
+        }
+        else
+        {
+            Console.WriteLine("Escolha uma opção válida");
+        }
 
         return usuario;
     }
@@ -112,18 +132,65 @@ public class Sistema
     }
     public void ExibirMenuDoCarrinho()
     {
+        Console.WriteLine("---------- O que você deseja fazer? ----------");
         Console.WriteLine("1 - Comprar os Itens do carrinho");
         Console.WriteLine("2 - Excluir Produto carrinho");
         Console.WriteLine("3 - Adicionar mais Produto carrinho");
         Console.WriteLine("Qual ação você deseja realizar?");
     }
-    public void ExibirMenuPrincipal()
+
+    public void ExibirMenuPrincipalUsuario()
     {
+        Console.WriteLine("---------- Qual das opções abaixo você deseja realizar? ----------");
+        Console.WriteLine("1 - Listar Produtos");
+        Console.WriteLine("2 - Realizar uma compra");
+        Console.WriteLine("3 - Vizualizar meu carrinho");
+        int resposta = int.Parse(Console.ReadLine());
+
+        if (resposta == 1)
+        {
+            Console.WriteLine("---------- Produto ----------");
+            List<Produto> produtos = _produtoUC.ListarProduto();
+
+            foreach (Produto p in produtos)
+            {
+
+                Console.WriteLine(p.ToString());
+            }
+
+        }
+        else if (resposta == 2)
+        {
+            List<Produto> produtos = _produtoUC.ListarProduto();
+            Console.WriteLine($"----------Produtos-----------");
+            foreach (Produto p in produtos)
+            {
+                Console.WriteLine(p.ToString());
+            }
+            Carrinho carrinho = RealizarCompra();
+
+            _carrinhoUC.ComprarProduto(carrinho);
+            List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
+            foreach (CarrinhoDTO ca in carrinhoDTOs)
+            {
+                Console.WriteLine(ca.ToString());
+
+            }
+        }
+        else if (resposta == 3)
+        {
+                VizualizarCarrinho();
+            
+        }
+
+    }
+    public void ExibirMenuPrincipalFuncionário()
+    {
+        Console.WriteLine("---------- Qual das opções abaixo você deseja realizar? ----------");
         Console.WriteLine("1 - Listar Produtos");
         Console.WriteLine("2 - Cadastrar Produtos");
         Console.WriteLine("3 - Realizar uma compra");
         Console.WriteLine("4 - Vizualizar meu carrinho");
-        Console.WriteLine("Qual ação você deseja realizar?");
         int resposta = int.Parse(Console.ReadLine());
 
         if (resposta == 1)
@@ -215,7 +282,7 @@ public class Sistema
         return car;
 
     }
-    //Eu amo o Edson
+
     public void Retirada()
     {
         int idEndereco = 0;
@@ -267,7 +334,7 @@ public class Sistema
         endereco.Numero = int.Parse(Console.ReadLine());
         Console.WriteLine("Qual é o seu bairro?");
         endereco.Bairro = Console.ReadLine();
-        Console.WriteLine("Produto cadastrado com sucesso");
+        Console.WriteLine("Endereço cadastrado com sucesso");
         endereco.UsuarioId = UsuarioLogado.Id;
         return endereco;
     }
@@ -293,6 +360,7 @@ public class Sistema
             double resultado = total - desconto;
             Console.WriteLine($"Total: R$ {total:F2}");
             Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
+            Encerrar();
         }
         else
         {
@@ -312,7 +380,7 @@ public class Sistema
 
     public void Encerrar()
     {
-        Console.WriteLine("Obrigada por comprar na Glow 💋!");
+        Console.WriteLine("Obrigada por comprar na Glow!");
     }
     public void Pagamento()
     {
@@ -324,14 +392,64 @@ public class Sistema
         if (esc == 1)
         {
             Console.WriteLine("Você selecionou o Cartão de Crédito como forma de pagamento.");
+            if (UsuarioLogado.E_funcionario == true)
+            {
+                List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
+                double total = 0;
+
+                foreach (CarrinhoDTO ca in carrinhoDTOs)
+                {
+                    total += ca.Produto.Preco;
+
+                }
+                Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
+                double desconto = total * 0.1;
+                double resultado = total - desconto;
+                Console.WriteLine($"Total: R$ {total:F2}");
+                Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
+            }
+
         }
         else if (esc == 2)
         {
+
             Console.WriteLine("Você selecionou o Pix como forma de pagamento.");
+            if (UsuarioLogado.E_funcionario == true)
+            {
+                List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
+                double total = 0;
+
+                foreach (CarrinhoDTO ca in carrinhoDTOs)
+                {
+                    total += ca.Produto.Preco;
+
+                }
+                Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
+                double desconto = total * 0.1;
+                double resultado = total - desconto;
+                Console.WriteLine($"Total: R$ {total:F2}");
+                Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
+            }
         }
         else if (esc == 3)
         {
             Console.WriteLine("Você selecionou o Boleto como forma de pagamento.");
+            if (UsuarioLogado.E_funcionario == true)
+            {
+                List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
+                double total = 0;
+
+                foreach (CarrinhoDTO ca in carrinhoDTOs)
+                {
+                    total += ca.Produto.Preco;
+
+                }
+                Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
+                double desconto = total * 0.1;
+                double resultado = total - desconto;
+                Console.WriteLine($"Total: R$ {total:F2}");
+                Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
+            }
         }
     }
     public void VizualizarCarrinho()
@@ -364,7 +482,6 @@ public class Sistema
         {
             RealizarCompra();
         }
-        //Eu amo o Edson
     }
 
 
