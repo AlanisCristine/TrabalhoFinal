@@ -63,6 +63,7 @@ public class Sistema
             {
                 ExibirMenuPrincipalFuncionário();
             }
+
             else if (UsuarioLogado.E_funcionario == false)
             {
                 ExibirMenuPrincipalUsuario();
