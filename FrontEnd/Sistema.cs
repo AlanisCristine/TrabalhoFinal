@@ -363,10 +363,7 @@ public class Sistema
             Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
             Encerrar();
         }
-        else
-        {
-            Console.WriteLine($"Total do carrinho: {total}");
-        }
+        
 
 
         // Console.WriteLine("Os produtos serão entregues no endereço abaixo");

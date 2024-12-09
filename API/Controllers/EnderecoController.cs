@@ -24,13 +24,13 @@ namespace API.Controllers
         /// <param name="enderecoDTO"></param>
         /// <returns></returns>
         [HttpPost("adicionar-Endereco")]
-        public IActionResult AdicionarAluno(Endereco enderecoDTO)
+        public ActionResult<Endereco> AdicionarAluno(Endereco enderecoDTO)
         {
             try
             {
                 Endereco end = _mapper.Map<Endereco>(enderecoDTO);
                 _service.Adicionar(enderecoDTO);
-                return Ok();
+                return Ok(end);
             }
             catch (Exception e)
             {
