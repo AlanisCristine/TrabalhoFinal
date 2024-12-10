@@ -18,7 +18,6 @@ public class Sistema
     private readonly ProdutoUC _produtoUC;
     private readonly CarrinhoUC _carrinhoUC;
     private readonly EnderecoUC _enderecoUC;
-    private readonly VendaUC _vendaUC;
     public Produto IdProd { get; set; }
     private static Pessoa UsuarioLogado { get; set; }
 
@@ -28,7 +27,6 @@ public class Sistema
         _produtoUC = new ProdutoUC(client);
         _carrinhoUC = new CarrinhoUC(client);
         _enderecoUC = new EnderecoUC(client);
-        _vendaUC = new VendaUC(client);
     }
 
     public void InicializarSistema()
@@ -176,8 +174,8 @@ public class Sistema
         }
         else if (resposta == 3)
         {
-                VizualizarCarrinho();
-            
+            VizualizarCarrinho();
+
         }
 
     }
@@ -343,6 +341,16 @@ public class Sistema
 
         List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
 
+        //Confere se o Carrinho está vazio
+        if (carrinhoDTOs == null || !carrinhoDTOs.Any())
+        {
+            Console.WriteLine("Carrinho vazio. Não há itens para finalizar.");
+            return;
+
+        }
+
+
+
         double total = 0;
 
         foreach (CarrinhoDTO ca in carrinhoDTOs)
@@ -356,33 +364,13 @@ public class Sistema
             double resultado = total - desconto;
             Console.WriteLine($"Total: R$ {total:F2}");
             Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
-        
+
         }
         else
         {
             Console.WriteLine($"Total: R$ {total:F2}");
         }
-        
-        foreach (CarrinhoDTO item in carrinhoDTOs)
-        {
-            Venda vendas = new Venda
-            {
-                PessoaId = UsuarioLogado.Id,
-                ProdutoId = item.Produto.Id,
-                MetodoDePagamento = MetodoDePagamentoEnum.Pix,
-                ValorFinal = (decimal)item.Produto.Preco,
-                DataCompra = DateTime.Now
-            };
 
-            _vendaUC.CadastrarVenda(vendas);
-        }
-
-
-        _carrinhoUC.DeletarProdutosDoCarrinho(UsuarioLogado.Id);
-        Console.WriteLine("Compra finalizada e produtos removidos do carrinho.");
-
-
-        // Console.WriteLine("Os produtos serão entregues no endereço abaixo");
         List<Endereco> enderecos = _enderecoUC.ListarEnderecoPorId(UsuarioLogado);
         foreach (Endereco en in enderecos)
         {
