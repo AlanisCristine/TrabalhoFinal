@@ -25,12 +25,13 @@ public class VendaController : ControllerBase
     /// </summary>
     /// <param name="venda"></param>
     [HttpPost("adicionar-Venda")]
-    public IActionResult AdicionarAluno(Venda venda)
+    public ActionResult<Venda> AdicionarAluno(Venda vendaDTO)
     {
         try
         {
-            _service.Adicionar(venda);
-            return Ok();
+            Venda ven= _mapper.Map<Venda>(vendaDTO);
+            _service.Adicionar(vendaDTO);
+            return Ok(ven);
         }
         catch (Exception e)
         {

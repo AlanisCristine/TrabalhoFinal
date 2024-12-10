@@ -58,7 +58,7 @@ public class VendaRepository : IVendaRepository
         ReadVendaReciboDTO vendaDTO = new ReadVendaReciboDTO();
         vendaDTO.Endereco = _repositoryEndereco.BuscarPorId(v.EnderecoId);
         vendaDTO.NomeUsuario = _repositoryUsuario.BuscarPorId(vendaDTO.Endereco.IdPessoa).Nome;
-        vendaDTO.MetodoPagamento = v.MetodoDePagamento;
+        vendaDTO.MetodoPagamento = (int)v.MetodoDePagamento;
         vendaDTO.Produtos = _repositoryCarrinho.ListarCarrinhoPreenchido(vendaDTO.Endereco.IdPessoa);
         vendaDTO.ValorFinal = v.ValorFinal;
         return vendaDTO;

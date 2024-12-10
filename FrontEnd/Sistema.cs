@@ -18,6 +18,7 @@ public class Sistema
     private readonly ProdutoUC _produtoUC;
     private readonly CarrinhoUC _carrinhoUC;
     private readonly EnderecoUC _enderecoUC;
+    private readonly VendaUC _vendaUC;
     public Produto IdProd { get; set; }
     private static Pessoa UsuarioLogado { get; set; }
 
@@ -27,6 +28,7 @@ public class Sistema
         _produtoUC = new ProdutoUC(client);
         _carrinhoUC = new CarrinhoUC(client);
         _enderecoUC = new EnderecoUC(client);
+        _vendaUC = new VendaUC(client);
     }
 
     public void InicializarSistema()
@@ -174,8 +176,8 @@ public class Sistema
         }
         else if (resposta == 3)
         {
-            VizualizarCarrinho();
-
+                VizualizarCarrinho();
+            
         }
 
     }
@@ -336,41 +338,63 @@ public class Sistema
     public void Finalizar()
     {
         Retirada();
-        Pagamento();
-        List<Venda> venda = new List<Venda>();
+
+        // Chama o método Pagamento para selecionar o método de pagamento
+        MetodoDePagamentoEnum metodoPagamento = Pagamento();
+
+        List<Venda> vendas = new List<Venda>();
 
         List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
 
-        //Confere se o Carrinho está vazio
+     
         if (carrinhoDTOs == null || !carrinhoDTOs.Any())
         {
             Console.WriteLine("Carrinho vazio. Não há itens para finalizar.");
             return;
-
         }
 
-
-
         double total = 0;
+        List<Produto> produtosVendidos = new List<Produto>(); 
 
         foreach (CarrinhoDTO ca in carrinhoDTOs)
         {
             total += ca.Produto.Preco;
+            produtosVendidos.Add(ca.Produto);
         }
+
+  
+        double totalComDesconto = total;
         if (total >= 100)
         {
             Console.WriteLine("Parabéns!! Comprando mais que R$100 na loja, você ganhou o desconto de 10%!");
             double desconto = total * 0.1;
-            double resultado = total - desconto;
+            totalComDesconto = total - desconto;
             Console.WriteLine($"Total: R$ {total:F2}");
-            Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
-
+            Console.WriteLine($"Valor final com desconto: R$ {totalComDesconto:F2}");
         }
         else
         {
             Console.WriteLine($"Total: R$ {total:F2}");
         }
 
+
+        foreach (CarrinhoDTO ca in carrinhoDTOs)
+        {
+            Venda novaVenda = new Venda
+            {
+                PessoaId = UsuarioLogado.Id,  
+                ProdutoId = ca.Produto.Id,  
+                MetodoDePagamento = metodoPagamento,
+                ValorFinal = (decimal)totalComDesconto, 
+                DataCompra = DateTime.Now
+            };
+            vendas.Add(novaVenda);
+           _vendaUC.CadastrarVenda(novaVenda);
+        }
+
+        _carrinhoUC.DeletarProdutosDoCarrinho(UsuarioLogado.Id);
+
+ 
         List<Endereco> enderecos = _enderecoUC.ListarEnderecoPorId(UsuarioLogado);
         foreach (Endereco en in enderecos)
         {
@@ -378,8 +402,7 @@ public class Sistema
             Console.WriteLine($"--------------------------");
         }
 
-
-
+      
         Encerrar();
     }
 
@@ -387,76 +410,53 @@ public class Sistema
     {
         Console.WriteLine("Obrigada por comprar na Glow!");
     }
-    public void Pagamento()
+
+    public MetodoDePagamentoEnum Pagamento()
     {
         Console.WriteLine("Selecione a forma de pagamento");
         Console.WriteLine("1 - Cartão de Crédito");
         Console.WriteLine("2 - Pix");
         Console.WriteLine("3 - Boleto");
         int esc = int.Parse(Console.ReadLine());
+
+        MetodoDePagamentoEnum metodoDePagamento = MetodoDePagamentoEnum.Cartao;  // Valor default (Cartão de Crédito)
+
         if (esc == 1)
         {
             Console.WriteLine("Você selecionou o Cartão de Crédito como forma de pagamento.");
-            if (UsuarioLogado.E_funcionario == true)
-            {
-                List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
-                double total = 0;
-
-                foreach (CarrinhoDTO ca in carrinhoDTOs)
-                {
-                    total += ca.Produto.Preco;
-
-                }
-                Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
-                double desconto = total * 0.1;
-                double resultado = total - desconto;
-                Console.WriteLine($"Total: R$ {total:F2}");
-                Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
-            }
-
+            metodoDePagamento = MetodoDePagamentoEnum.Cartao;
         }
         else if (esc == 2)
         {
-
             Console.WriteLine("Você selecionou o Pix como forma de pagamento.");
-            if (UsuarioLogado.E_funcionario == true)
-            {
-                List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
-                double total = 0;
-
-                foreach (CarrinhoDTO ca in carrinhoDTOs)
-                {
-                    total += ca.Produto.Preco;
-
-                }
-                Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
-                double desconto = total * 0.1;
-                double resultado = total - desconto;
-                Console.WriteLine($"Total: R$ {total:F2}");
-                Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
-            }
+            metodoDePagamento = MetodoDePagamentoEnum.Pix;
         }
         else if (esc == 3)
         {
             Console.WriteLine("Você selecionou o Boleto como forma de pagamento.");
-            if (UsuarioLogado.E_funcionario == true)
-            {
-                List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
-                double total = 0;
-
-                foreach (CarrinhoDTO ca in carrinhoDTOs)
-                {
-                    total += ca.Produto.Preco;
-
-                }
-                Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
-                double desconto = total * 0.1;
-                double resultado = total - desconto;
-                Console.WriteLine($"Total: R$ {total:F2}");
-                Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
-            }
+            metodoDePagamento = MetodoDePagamentoEnum.Boleto;
         }
+
+        if (UsuarioLogado.E_funcionario == true)
+        {
+            List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
+            double total = 0;
+
+            foreach (CarrinhoDTO ca in carrinhoDTOs)
+            {
+                total += ca.Produto.Preco;
+            }
+            Console.WriteLine("Bonus!! Por ser um funcionário da loja, você ganhou o desconto de 5%!");
+            double desconto = total * 0.05; 
+            double resultado = total - desconto;
+            Console.WriteLine($"Total: R$ {total:F2}");
+            Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
+        }
+
+        return metodoDePagamento;
     }
+
+
     public void VizualizarCarrinho()
     {
         List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
