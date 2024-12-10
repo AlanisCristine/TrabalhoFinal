@@ -33,7 +33,9 @@ namespace FrontEnd.UseCases
         {
             HttpResponseMessage response = _client.DeleteAsync("Carrinho/deletar-carrinho?id=" + id).Result;
         }
-        // Novo método para deletar TODOS os produtos do carrinho de um usuário
+        
+
+
         public void DeletarProdutosDoCarrinho(int idUsuario)
         {
             HttpResponseMessage response = _client.DeleteAsync("Carrinho/deletar-todos-produtos?usuarioId=" + idUsuario).Result;

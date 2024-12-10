@@ -57,8 +57,9 @@ public static class InicializadorBD
                  EnderecoId INTEGER  NOT NULL,
                  PessoaId INTEGER  NOT NULL,
                  ProdutoId INTEGER  NOT NULL,
-                 MetodoDePagamento INTEGER NOT NULL,
-                 ValorFinal DOUBLE NOT NULL
+                 MetodoDePagamento INTEGER NOT NULL CHECK (MetodoDePagamento IN (1, 2, 3)),,
+                 ValorFinal DOUBLE NOT NULL,
+                 DataCompra DATETIME NOT NULL
                  );";
 
 

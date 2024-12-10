@@ -35,6 +35,12 @@
             </summary>
             <param name="id"></param>
         </member>
+        <member name="M:API.Controllers.CarrinhoController.DeletarTodosProdutosDoCarrinho(System.Int32)">
+            <summary>
+            Deleta todos os produtos do carrinho de um usuário.
+            </summary>
+            <param name="usuarioId">ID do usuário do carrinho</param>
+        </member>
         <member name="M:API.Controllers.EnderecoController.AdicionarAluno(Core._03_Entidades.Endereco)">
             <summary>
             Adiciona um endereço para um usuario já cadastrado

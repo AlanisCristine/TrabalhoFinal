@@ -362,23 +362,22 @@ public class Sistema
         {
             Console.WriteLine($"Total: R$ {total:F2}");
         }
-
+        
         foreach (CarrinhoDTO item in carrinhoDTOs)
         {
             Venda vendas = new Venda
             {
                 PessoaId = UsuarioLogado.Id,
                 ProdutoId = item.Produto.Id,
-                EnderecoId = EnderecoId,
-                MetodoDePagamento = 1, // Por exemplo: 1 = Cartão, 2 = Boleto (ajuste conforme necessário)
+                MetodoDePagamento = MetodoDePagamentoEnum.Pix,
                 ValorFinal = (decimal)item.Produto.Preco,
                 DataCompra = DateTime.Now
             };
 
-            _vendaUC.CadastrarVenda(venda);
+            _vendaUC.CadastrarVenda(vendas);
         }
 
-        // 6. Remove os itens do carrinho
+
         _carrinhoUC.DeletarProdutosDoCarrinho(UsuarioLogado.Id);
         Console.WriteLine("Compra finalizada e produtos removidos do carrinho.");
 
