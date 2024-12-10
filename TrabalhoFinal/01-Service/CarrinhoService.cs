@@ -24,6 +24,13 @@ public class CarrinhoService : ICarrinhoService
     {
         repository.Remover(id);
     }
+
+    public void DeletarProdutosDoCarrinho(int usuarioId)
+    {
+        repository.DeletarProdutosDoCarrinho(usuarioId);
+    }
+
+
     public List<CarrinhoDTO> ListarCarrinhoPreenchido(int usuarioId)
     {
         return repository.ListarCarrinhoPreenchido(usuarioId);

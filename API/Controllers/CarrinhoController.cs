@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Data.Entity;
 using TrabalhoFinal._01_Service.Interfaces;
 using TrabalhoFinal._01_Services;
 using TrabalhoFinal._03_Entidade;
@@ -117,4 +118,22 @@ public class CarrinhoController : ControllerBase
         }
         
     }
+    /// <summary>
+    /// Deleta todos os produtos do carrinho de um usuário.
+    /// </summary>
+    /// <param name="usuarioId">ID do usuário do carrinho</param>
+    [HttpDelete("deletar-todos-produtos")]
+    public IActionResult DeletarTodosProdutosDoCarrinho(int usuarioId)
+    {
+        try
+        {
+            _service.DeletarProdutosDoCarrinho(usuarioId);  // Chama o serviço
+            return Ok("Produtos removidos com sucesso.");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Erro ao deletar os produtos do carrinho: {ex.Message}");
+        }
+    }
 }
+

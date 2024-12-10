@@ -33,5 +33,20 @@ namespace FrontEnd.UseCases
         {
             HttpResponseMessage response = _client.DeleteAsync("Carrinho/deletar-carrinho?id=" + id).Result;
         }
+        // Novo método para deletar TODOS os produtos do carrinho de um usuário
+        public void DeletarProdutosDoCarrinho(int idUsuario)
+        {
+            HttpResponseMessage response = _client.DeleteAsync("Carrinho/deletar-todos-produtos?usuarioId=" + idUsuario).Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine("Todos os produtos do carrinho foram removidos com sucesso.");
+            }
+            else
+            {
+                Console.WriteLine("Erro ao deletar os produtos do carrinho. Status Code: " + response.StatusCode);
+            }
+        }
+
     }
 }

@@ -7,6 +7,7 @@ namespace TrabalhoFinal._01_Service.Interfaces
     {
         void Adicionar(Carrinho carrinho);
         void Remover(int id);
+        void DeletarProdutosDoCarrinho(int usuarioId);
         List<CarrinhoDTO> ListarCarrinhoPreenchido(int usuarioId);
         List<Carrinho> Listar();
         Carrinho BuscarTimePorId(int id);

@@ -81,5 +81,23 @@ public class CarrinhoRepository : ICarrinhoRepository
         }
         return listDTO;
     }
+    public void DeletarProdutosDoCarrinho(int usuarioId)
+    {
+        using var connection = new SQLiteConnection(ConnectionString);
+
+        // Busca todos os itens do carrinho do usuário
+        var itensCarrinho = connection.Query<Carrinho>($"SELECT * FROM Carrinhos WHERE IdPessoa = @usuarioId", new { usuarioId }).ToList();
+
+        // Se houver itens no carrinho, remove-os
+        if (itensCarrinho.Any())
+        {
+            connection.Execute($"DELETE FROM Carrinhos WHERE IdPessoa = @usuarioId", new { usuarioId });
+            Console.WriteLine($"Todos os produtos do carrinho do usuário {usuarioId} foram removidos com sucesso.");
+        }
+        else
+        {
+            Console.WriteLine("Não existem produtos no carrinho para o usuário informado.");
+        }
+    }
 }
 

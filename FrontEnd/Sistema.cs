@@ -18,6 +18,7 @@ public class Sistema
     private readonly ProdutoUC _produtoUC;
     private readonly CarrinhoUC _carrinhoUC;
     private readonly EnderecoUC _enderecoUC;
+    private readonly VendaUC _vendaUC;
     public Produto IdProd { get; set; }
     private static Pessoa UsuarioLogado { get; set; }
 
@@ -27,6 +28,7 @@ public class Sistema
         _produtoUC = new ProdutoUC(client);
         _carrinhoUC = new CarrinhoUC(client);
         _enderecoUC = new EnderecoUC(client);
+        _vendaUC = new VendaUC(client);
     }
 
     public void InicializarSistema()
@@ -47,16 +49,8 @@ public class Sistema
                 {
                     Pessoa usuario = CriarUsuario();
                     _pessoaUC.CadastrarUsuario(usuario);
-                    Console.WriteLine("Usuário cadastrado com sucesso!");
+                    Console.WriteLine($"{usuario.Nome} Cadastrado(a) com sucesso");
 
-                }
-                else if (resposta == 3)
-                {
-                    List<Pessoa> ususarios = _pessoaUC.ListarUsuario();
-                    foreach (Pessoa u in ususarios)
-                    {
-                        Console.WriteLine(u.ToString());
-                    }
                 }
             }
             else if (UsuarioLogado.E_funcionario == true)
@@ -73,10 +67,12 @@ public class Sistema
     }
     public int ExibirLogin()
     {
-        Console.WriteLine("------ LOGIN ------");
-        Console.WriteLine("1 - Deseja fazer login");
-        Console.WriteLine("2 - Deseja se cadastrar");
-        Console.WriteLine("3 - Listar usuario cadastrado");
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine("------ Seja Bem-Vindo(a) a GLow Store ------");
+        Console.WriteLine("--------------------------------------------");
+        Console.WriteLine("------ O que você deseja fazer? ------------");
+        Console.WriteLine("1 - Desejo fazer o meu login");
+        Console.WriteLine("2 - Deseja me cadastrar");
 
         return int.Parse(Console.ReadLine());
     }
@@ -343,7 +339,7 @@ public class Sistema
     {
         Retirada();
         Pagamento();
-        Venda venda = new Venda();
+        List<Venda> venda = new List<Venda>();
 
         List<CarrinhoDTO> carrinhoDTOs = _carrinhoUC.ListarCarrinhoPorId(UsuarioLogado);
 
@@ -352,7 +348,6 @@ public class Sistema
         foreach (CarrinhoDTO ca in carrinhoDTOs)
         {
             total += ca.Produto.Preco;
-
         }
         if (total >= 100)
         {
@@ -361,9 +356,31 @@ public class Sistema
             double resultado = total - desconto;
             Console.WriteLine($"Total: R$ {total:F2}");
             Console.WriteLine($"Valor final com desconto: R$ {resultado:F2}");
-            Encerrar();
-        }
         
+        }
+        else
+        {
+            Console.WriteLine($"Total: R$ {total:F2}");
+        }
+
+        foreach (CarrinhoDTO item in carrinhoDTOs)
+        {
+            Venda vendas = new Venda
+            {
+                PessoaId = UsuarioLogado.Id,
+                ProdutoId = item.Produto.Id,
+                EnderecoId = EnderecoId,
+                MetodoDePagamento = 1, // Por exemplo: 1 = Cartão, 2 = Boleto (ajuste conforme necessário)
+                ValorFinal = (decimal)item.Produto.Preco,
+                DataCompra = DateTime.Now
+            };
+
+            _vendaUC.CadastrarVenda(venda);
+        }
+
+        // 6. Remove os itens do carrinho
+        _carrinhoUC.DeletarProdutosDoCarrinho(UsuarioLogado.Id);
+        Console.WriteLine("Compra finalizada e produtos removidos do carrinho.");
 
 
         // Console.WriteLine("Os produtos serão entregues no endereço abaixo");
@@ -374,6 +391,9 @@ public class Sistema
             Console.WriteLine($"--------------------------");
         }
 
+
+
+        Encerrar();
     }
 
     public void Encerrar()
