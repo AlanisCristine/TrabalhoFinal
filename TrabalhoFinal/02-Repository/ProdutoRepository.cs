@@ -1,4 +1,5 @@
-﻿using Dapper.Contrib.Extensions;
+﻿using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -59,5 +60,13 @@ namespace TrabalhoFinal._02_Repository
             return connection.Get<Produto>(id);
         }
 
+        public List<Produto> ProdutosUsuario(int id)
+        {
+            using var connection = new SQLiteConnection(ConnectionString);
+
+            List<Produto> listReturn = connection.Query<Produto>($"SELECT P.Nome\r\nFROM CARRINHOS C\r\nINNER JOIN PRODUTOS P ON C.IdProduto = P.{id}").ToList();
+
+            return listReturn;
+        }
     }
 }

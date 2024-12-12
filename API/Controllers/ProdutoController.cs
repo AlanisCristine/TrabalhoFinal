@@ -60,6 +60,26 @@ namespace API.Controllers
 
         }
 
+        /// <summary>
+        /// Lista produtos do usuário
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Listar-Produtos-Usuario")]
+        public List<Produto> ProdutoPessoa(int id)
+        {
+
+            try
+            {
+                return _service.ProdutosUsuario(id);
+            }
+            catch (Exception e)
+            {
+
+                throw new Exception(e.Message);
+            }
+
+        }
+
 
         /// <summary>
         /// Remove um produto do banco de dados

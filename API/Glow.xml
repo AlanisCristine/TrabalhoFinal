@@ -110,6 +110,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:API.Controllers.ProdutoController.ProdutoPessoa(System.Int32)">
+            <summary>
+            Lista produtos do usuário
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:API.Controllers.ProdutoController.RemoverProduto(System.Int32)">
             <summary>
             Remove um produto do banco de dados

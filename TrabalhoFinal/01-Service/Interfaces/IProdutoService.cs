@@ -14,5 +14,6 @@ namespace TrabalhoFinal._01_Service.Interfaces
         List<Produto> ListarProduto();
         Produto BuscarProdutoPorId(int id);
         void EditarProduto(Produto editProduto);
+        public List<Produto> ProdutosUsuario(int id);
     }
 }

@@ -59,7 +59,7 @@ public class VendaRepository : IVendaRepository
         vendaDTO.Endereco = _repositoryEndereco.BuscarPorId(v.EnderecoId);
         vendaDTO.NomeUsuario = _repositoryUsuario.BuscarPorId(vendaDTO.Endereco.IdPessoa).Nome;
         vendaDTO.MetodoPagamento = (int)v.MetodoDePagamento;
-        vendaDTO.Produtos = _repositoryCarrinho.ListarCarrinhoPreenchido(vendaDTO.Endereco.IdPessoa);
+        //vendaDTO.Produtos = _repositoryProduto.ProdutosUsuario(vendaDTO.Produtos.);
         vendaDTO.ValorFinal = v.ValorFinal;
         return vendaDTO;
     }
@@ -82,20 +82,22 @@ public class VendaRepository : IVendaRepository
             {
                 ReadVendaReciboDTO Venda = new ReadVendaReciboDTO();
                 Venda.Id = ven.Id;
-                Venda.Produtos = _repositoryCarrinho.ListarCarrinhoPreenchido(ven.PessoaId);
+                Venda.Produtos = _repositoryProduto.ProdutosUsuario(ven.ProdutoId);
                 Venda.NomeUsuario = _repositoryUsuario.BuscarPorId(ven.PessoaId).UserName;
                 Venda.Endereco = _repositoryEndereco.BuscarPorId(ven.EnderecoId);
                 decimal somaProdutos = 0;
                 foreach (var item in Venda.Produtos)
                 {
-                    somaProdutos += item.Produto.Preco;
-                } 
+                    // somaProdutos += item.Preco;
+                }
                 Venda.ValorFinal = somaProdutos;
                 //Venda.ValorFinal = Venda.Produtos.Where(x => x.IdPessoa == 1).Sum(x => x.Produto.Preco);
-               
+
                 listDTO.Add(Venda);
             }
         }
         return listDTO;
     }
+
+
 }

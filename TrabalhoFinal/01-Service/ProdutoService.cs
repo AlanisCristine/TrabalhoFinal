@@ -40,5 +40,9 @@ namespace TrabalhoFinal._01_Service
         {
             repository.EditarProduto(editProduto);
         }
+        public List<Produto> ProdutosUsuario(int id)
+        {
+           return  repository.ProdutosUsuario(id);
+        }
     }
 }

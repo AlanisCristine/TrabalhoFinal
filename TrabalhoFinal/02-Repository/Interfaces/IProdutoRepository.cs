@@ -14,5 +14,6 @@ namespace TrabalhoFinal._02_Repository.Interfaces
         void EditarProduto(Produto pro);
         List<Produto> ListarProduto();
         Produto BuscarPorId(int id);
+        List<Produto> ProdutosUsuario(int id);
     }
 }
