@@ -64,7 +64,7 @@ namespace TrabalhoFinal._02_Repository
         {
             using var connection = new SQLiteConnection(ConnectionString);
 
-            List<Produto> listReturn = connection.Query<Produto>($"SELECT P.Nome\r\nFROM CARRINHOS C\r\nINNER JOIN PRODUTOS P ON C.IdProduto = P.{id}").ToList();
+            List<Produto> listReturn = connection.Query<Produto>($"SELECT P.Id, P.Nome, P.Preco, P.Estoque\r\nFROM CARRINHOS C\r\nINNER JOIN PRODUTOS P ON C.IdProduto = P.Id\r\nWhere idPessoa = {id}").ToList();
 
             return listReturn;
         }

@@ -23,12 +23,15 @@ public class VendaRepository : IVendaRepository
     private readonly IPessoaRepository _repositoryUsuario;
     private readonly IEnderecoRepository _repositoryEndereco;
     private readonly IProdutoRepository _repositoryProduto;
-    public VendaRepository(IConfiguration config, ICarrinhoRepository repositoryCarrinho, IPessoaRepository repositoryUsuario, IEnderecoRepository repositoryEndereco)
+
+    public VendaRepository(IConfiguration config, ICarrinhoRepository repositoryCarrinho, IPessoaRepository repositoryUsuario, IEnderecoRepository repositoryEndereco, IProdutoRepository repositoryProduto)
     {
         ConnectionString = config.GetConnectionString("DefaultConnection");
         _repositoryCarrinho = repositoryCarrinho;
         _repositoryUsuario = repositoryUsuario;
         _repositoryEndereco = repositoryEndereco;
+        _repositoryProduto= repositoryProduto;
+
     }
     public void Adicionar(Venda venda)
     {
@@ -59,7 +62,7 @@ public class VendaRepository : IVendaRepository
         vendaDTO.Endereco = _repositoryEndereco.BuscarPorId(v.EnderecoId);
         vendaDTO.NomeUsuario = _repositoryUsuario.BuscarPorId(vendaDTO.Endereco.IdPessoa).Nome;
         vendaDTO.MetodoPagamento = (int)v.MetodoDePagamento;
-        //vendaDTO.Produtos = _repositoryProduto.ProdutosUsuario(vendaDTO.Produtos.);
+        vendaDTO.Produtos = _repositoryProduto.ProdutosUsuario(v.ProdutoId);
         vendaDTO.ValorFinal = v.ValorFinal;
         return vendaDTO;
     }
@@ -74,21 +77,25 @@ public class VendaRepository : IVendaRepository
 
     private List<ReadVendaReciboDTO> TransformarListaVendaEmVendaDTO(List<Venda> list)
     {
+        using var connection = new SQLiteConnection(ConnectionString);
         List<ReadVendaReciboDTO> listDTO = new List<ReadVendaReciboDTO>();
+        //Venda v = connection.Get<Venda>();
 
         foreach (Venda ven in list)
         {
             if (ven.PessoaId > 0)
             {
+                
                 ReadVendaReciboDTO Venda = new ReadVendaReciboDTO();
                 Venda.Id = ven.Id;
                 Venda.Produtos = _repositoryProduto.ProdutosUsuario(ven.ProdutoId);
                 Venda.NomeUsuario = _repositoryUsuario.BuscarPorId(ven.PessoaId).UserName;
                 Venda.Endereco = _repositoryEndereco.BuscarPorId(ven.EnderecoId);
+                Venda.MetodoPagamento = (int)ven.MetodoDePagamento;
                 decimal somaProdutos = 0;
                 foreach (var item in Venda.Produtos)
                 {
-                    // somaProdutos += item.Preco;
+                    somaProdutos += item.Preco;
                 }
                 Venda.ValorFinal = somaProdutos;
                 //Venda.ValorFinal = Venda.Produtos.Where(x => x.IdPessoa == 1).Sum(x => x.Produto.Preco);

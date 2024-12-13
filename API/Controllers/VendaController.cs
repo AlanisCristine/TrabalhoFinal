@@ -72,10 +72,10 @@ public class VendaController : ControllerBase
         {
           return _service.ListarVendaPreenchido(usuarioId);
         }
-        catch (Exception)
+        catch (Exception e)
         {
 
-            throw new Exception("Erro ao Listar as vendas preenchidas");
+            throw new Exception($"Erro ao Listar as vendas preenchidas \n {e.Message}");
         }
        
     }

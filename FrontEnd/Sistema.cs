@@ -382,6 +382,7 @@ public class Sistema
         {
             Venda novaVenda = new Venda
             {
+                EnderecoId = UsuarioLogado.Id,
                 PessoaId = UsuarioLogado.Id,  
                 ProdutoId = ca.Produto.Id,  
                 MetodoDePagamento = metodoPagamento,
@@ -414,8 +415,8 @@ public class Sistema
     public MetodoDePagamentoEnum Pagamento()
     {
         Console.WriteLine("Selecione a forma de pagamento");
-        Console.WriteLine("1 - Cartão de Crédito");
-        Console.WriteLine("2 - Pix");
+        Console.WriteLine("1 - Pix");
+        Console.WriteLine("2 - Cartão de Crédito");
         Console.WriteLine("3 - Boleto");
         int esc = int.Parse(Console.ReadLine());
 
@@ -423,7 +424,7 @@ public class Sistema
 
         if (esc == 1)
         {
-            Console.WriteLine("Você selecionou o Cartão de Crédito como forma de pagamento.");
+            Console.WriteLine("Você selecionou o Pix como forma de pagamento.");
             metodoDePagamento = MetodoDePagamentoEnum.Cartao;
         }
         else if (esc == 2)

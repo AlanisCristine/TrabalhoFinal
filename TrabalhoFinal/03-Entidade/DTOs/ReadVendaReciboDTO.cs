@@ -10,7 +10,7 @@ namespace FrontEnd
         public Endereco Endereco { get; set; }
         public string NomeUsuario { get; set; }
         public int MetodoPagamento { get; set; }
-        public List<Produto>? Produtos = new List<Produto>();
+        public List<Produto> Produtos { get; set; } = new List<Produto>();
         public decimal ValorFinal { get; set; }
 
         public override string ToString()
@@ -21,13 +21,13 @@ namespace FrontEnd
 
             foreach (Produto p in Produtos)
             {
-                mensagemRecibo += $"\n{p.ToString()}";
+                mensagemRecibo += $"\n Produto:{p.ToString()}";
             }
 
             mensagemRecibo += $"\n---------- Valor Final: {ValorFinal} ----------";
             return mensagemRecibo;
         }
-        
+
 
 
     }
